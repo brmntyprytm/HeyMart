@@ -1,6 +1,8 @@
 name: SonarCloud
 on:
   push:
+    branches:
+      - main
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -11,12 +13,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up Java toolchain
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          distribution: "temurin"
-          java-version: "21"
-          cache: "gradle"
+          java-version: 21
+          distribution: 'temurin' # Alternative distribution options are available
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
@@ -29,8 +30,6 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Set gradlew as executable
-        run: chmod +x ./gradlew
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
