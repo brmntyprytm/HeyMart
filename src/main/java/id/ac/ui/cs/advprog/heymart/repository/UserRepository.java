@@ -24,6 +24,19 @@ public class UserRepository {
         }
         return null;
     }
+
+    public User findByUsername(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public boolean existsByUsername(String username) {
+        return findByUsername(username) != null;
+    }
 }
 
 
