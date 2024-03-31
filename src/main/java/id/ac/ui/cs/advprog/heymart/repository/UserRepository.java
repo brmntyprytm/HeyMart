@@ -8,14 +8,20 @@ import java.util.ArrayList;
 public class UserRepository {
 
     private final List<User> users = new ArrayList<>();
+    private Long idCounter = 1L;
 
     public User save(User user) {
-        // TODO: Implement this method
-        return null;
+        user.setId(idCounter++);
+        users.add(user);
+        return user;
     }
 
     public User findById(Long id) {
-        // TODO: Implement this method
+        for (User user : users) {
+            if (user.getId().equals(id)) {
+                return user;
+            }
+        }
         return null;
     }
 }
