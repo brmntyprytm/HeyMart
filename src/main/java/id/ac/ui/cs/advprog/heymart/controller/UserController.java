@@ -14,6 +14,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/")
+    public String landingPage() {
+        return "landing";
+    }
+
     @GetMapping("/register")
     public String registerPage(Model model) {
         model.addAttribute("user", new User());
