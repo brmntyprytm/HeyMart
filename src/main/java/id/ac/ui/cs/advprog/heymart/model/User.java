@@ -12,16 +12,20 @@ public class User {
     private String password;
     private String email;
 
-    public User() {
-    }
-
     public User(Long id, String username, String password, String email) {
-        // TODO: Implement constructor
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
     @Override
     public String toString() {
-        // TODO: Implement toString
-        return null;
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
