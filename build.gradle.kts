@@ -38,8 +38,8 @@ tasks.withType<Test> {
 
 sonar {
     properties {
-        property("sonar.projectKey", "brmntyprytm_HeyMart")
-        property("sonar.organization", "brmntyprytm")
+        property("sonar.projectKey", "PejuangAdpro_HeyMart")
+        property("sonar.organization", "pejuangadpro")
         property("sonar.host.url", "https://sonarcloud.io")
     }
 }
