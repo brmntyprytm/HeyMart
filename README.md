@@ -15,6 +15,8 @@
 2. `brmntyprytm` - Bramantyo Priyo Utomo / 2206821563
 
    Responsible for:
+   - Continuous Integration 
+      - [x] Set Up CI with SonarCloud
    - Authentication (🧑‍)
       - [x] Users can register
       - [x] Users can login
