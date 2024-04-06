@@ -27,7 +27,7 @@ public class UserServiceImplTest {
 
     @Test
     void testRegisterUser_Successful() {
-        User user = new User(null, "test_user", "password123", "test@example.com");
+        User user = new User(null, "test_user", "password123", "test@example.com", "Manager");
 
         when(userRepository.existsByUsername("test_user")).thenReturn(false);
         when(userRepository.save(user)).thenReturn(user);
@@ -40,7 +40,7 @@ public class UserServiceImplTest {
 
     @Test
     void testRegisterUser_Failure_UsernameExists() {
-        User user = new User(null, "existing_user", "password123", "test@example.com");
+        User user = new User(null, "existing_user", "password123", "test@example.com", "Manager");
 
         when(userRepository.existsByUsername("existing_user")).thenReturn(true);
 
@@ -52,7 +52,7 @@ public class UserServiceImplTest {
 
     @Test
     void testLoginUser_Successful() {
-        when(userRepository.findByUsername("test_user")).thenReturn(new User(null, "test_user", "password123", "test@example.com"));
+        when(userRepository.findByUsername("test_user")).thenReturn(new User(null, "test_user", "password123", "test@example.com", "Manager"));
 
         assertTrue(userService.loginUser("test_user", "password123"));
 
@@ -70,7 +70,7 @@ public class UserServiceImplTest {
 
     @Test
     void testLoginUser_Failure_InvalidPassword() {
-        when(userRepository.findByUsername("test_user")).thenReturn(new User(null, "test_user", "password123", "test@example.com"));
+        when(userRepository.findByUsername("test_user")).thenReturn(new User(null, "test_user", "password123", "test@example.com", "Manager"));
 
         assertFalse(userService.loginUser("test_user", "invalid_password"));
 
