@@ -10,35 +10,38 @@ public class BalanceRepository {
     private List<Balance> balances = new ArrayList<>();
 
     public void add(Balance balance) {
-        // balances.add(balance);
+        balances.add(balance);
     }
 
     public Balance findById(Long Id) {
-        // for (Balance b : balances) {
-        //     if (b.getId().equals(Id)) {
-        //         return b;
-        //     }
-        // }
+        for (Balance b : balances) {
+            if (b.getId().equals(Id)) {
+                return b;
+            }
+        }
         return null;
     }
 
     public double incrementBalance(Long id, double amount) {
-        // for (Balance b: balances) {
-        //     if (b.getId().equals(id)) {
-        //         b.setBalance(b.getBalance() + amount);
-        //         return b.getBalance();
-        //     }
-        // }
+        for (Balance b: balances) {
+            if (b.getId().equals(id)) {
+                b.setBalance(b.getBalance() + amount);
+                return b.getBalance();
+            }
+        }
         return -1;
     }
 
     public double decrementBalance(Long id, double amount) {
-        // for (Balance b: balances) {
-        //     if (b.getId().equals(id)) {
-        //         b.setBalance(b.getBalance() - amount);
-        //         return b.getBalance();
-        //     }
-        // }
+        for (Balance b: balances) {
+            if (b.getId().equals(id)) {
+                if (b.getBalance() - amount >= 0) {
+                    b.setBalance(b.getBalance() - amount);
+                    return b.getBalance();
+                }
+                return -2;
+            }
+        }
         return -1;
     }
 }
