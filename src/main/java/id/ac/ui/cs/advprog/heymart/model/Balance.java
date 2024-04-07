@@ -10,5 +10,7 @@ public class Balance {
     private Long id;
 
     public Balance(Long id, double balance) {
+        this.id = id;
+        this.balance = balance;
     }
 }
