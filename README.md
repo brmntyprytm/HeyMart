@@ -17,6 +17,10 @@
    Responsible for:
    - Continuous Integration 
       - [x] Set Up CI with SonarCloud
+   - Styling
+     -  [x] Set Up Tailwind CSS
+     -  [x] Styled Landing, Login and Register Page
+     -  [ ] Styled Home Page
    - Authentication (🧑‍)
       - [x] Users can register
       - [x] Users can login
