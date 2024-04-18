@@ -2,9 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
     <title>Greeting</title>
 </head>
-<body>
-<h2 th:text="'Hello, ' + ${username} + '!'">Hello, username!</h2>
+<body class="bg-gray-900 text-white font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
+<div class="text-center">
+    <h1 class="text-6xl mb-6 font-extrabold">Welcome to HeyMart 👋</h1>
+    <h2 class="text-3xl" th:text="'Hello, ' + ${username} + '!'">Hello, username!</h2>
+</div>
 </body>
 </html>
