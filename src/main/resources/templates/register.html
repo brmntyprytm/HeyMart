@@ -2,18 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
     <title>Register</title>
 </head>
-<body>
-<h2>Register</h2>
-<form action="/register" method="post">
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username"><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password"><br>
-    <label for="email">Email:</label><br>
-    <input type="text" id="email" name="email"><br><br>
-    <input type="submit" value="Register">
-</form>
+<body class="bg-gray-900 font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
+<div class="text-center">
+    <h2 class="text-7xl text-white font-extrabold mb-6">Register</h2>
+    <div class="bg-gray-800 rounded-lg p-6">
+        <form action="/register" method="post" class="w-64 mx-auto">
+            <div class="mb-4">
+                <label for="username" class="block text-white">Username:</label>
+                <input type="text" id="username" name="username" class="block w-full bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:bg-gray-600">
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-white">Password:</label>
+                <input type="password" id="password" name="password" class="block w-full bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:bg-gray-600">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-white">Email:</label>
+                <input type="text" id="email" name="email" class="block w-full bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:bg-gray-600">
+            </div>
+            <div class="mb-6">
+                <input type="submit" value="Register" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

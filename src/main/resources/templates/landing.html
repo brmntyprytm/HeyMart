@@ -2,14 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
     <title>Welcome to HeyMart</title>
 </head>
-<body>
-<h1>Welcome to HeyMart!</h1>
-<p>Please choose an option:</p>
-<ul>
-    <li><a href="/register">Register</a></li>
-    <li><a href="/login">Login</a></li>
-</ul>
+<body class="bg-gray-900 font-sans leading-normal tracking-normal items-center m-5 my-20 p-5">
+<div class="text-center">
+    <h1 class="text-7xl text-white font-extrabold">Welcome to HeyMart 👋</h1>
+    <p class="text-2xl text-white pt-12">Please choose an option:</p>
+    <div class="space-x-5 py-10 px-10 mx-0">
+        <a class="py-3 px-7 rounded bg-blue-500 text-white font-semibold shadow-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue" href="/register">Register</a>
+        <a class="py-3 px-7 rounded bg-gray-500 text-white font-semibold shadow-md hover:bg-gray-700 focus:outline-none focus:shadow-outline-blue" href="/login">Login</a>
+    </div>
+</div>
+<div>
+    <h1 class="text-3xl text-white font-extrabold pt-10">Bram's Note:</h1>
+    <p class="text-white">Authentication feature is still in its early stages of development, please do not enter any sensitive information. Thank you for your understanding!</p>
+</div>
 </body>
 </html>
