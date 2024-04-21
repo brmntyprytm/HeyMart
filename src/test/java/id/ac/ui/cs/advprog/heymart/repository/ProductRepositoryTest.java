@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,5 +46,25 @@ public class ProductRepositoryTest {
         assertEquals("Product2", retrievedProducts.get(1).getName());
         assertEquals(15.0, retrievedProducts.get(1).getPrice());
         assertEquals(8, retrievedProducts.get(1).getQuantity());
+    }
+
+    @Test
+    public void testCreateProduct() {
+        // Create a new product
+        Product product = new Product("Test Product", 10.0, 100);
+
+        // Save the product to the database using ProductRepository
+        Product savedProduct = productRepository.save(product);
+
+        // Retrieve the product from the database using ProductRepository
+        Product retrievedProduct = productRepository.findById(savedProduct.getId()).orElse(null);
+
+        // Check if the retrieved product is not null
+        assertNotNull(retrievedProduct);
+
+        // Check if the retrieved product has the correct attributes
+        assertEquals("Test Product", retrievedProduct.getName());
+        assertEquals(10.0, retrievedProduct.getPrice());
+        assertEquals(100, retrievedProduct.getQuantity());
     }
 }
