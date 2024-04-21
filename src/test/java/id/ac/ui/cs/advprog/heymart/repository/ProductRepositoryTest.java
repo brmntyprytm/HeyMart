@@ -11,9 +11,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,22 +51,22 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void testCreateProduct() {
+    void testCreateProduct() {
         // Create a new product
         Product product = new Product("Test Product", 10.0, 100);
 
-        // Save the product to the database using ProductRepository
-        Product savedProduct = productRepository.save(product);
+        // Mocking repository behavior
+        when(productRepository.save(any())).thenReturn(product);
 
-        // Retrieve the product from the database using ProductRepository
-        Product retrievedProduct = productRepository.findById(savedProduct.getId()).orElse(null);
+        // Call the service method to create the product
+        Product savedProduct = productService.createProduct(product);
 
-        // Check if the retrieved product is not null
-        assertNotNull(retrievedProduct);
+        // Verify that the saved product is not null
+        assertNotNull(savedProduct);
 
-        // Check if the retrieved product has the correct attributes
-        assertEquals("Test Product", retrievedProduct.getName());
-        assertEquals(10.0, retrievedProduct.getPrice());
-        assertEquals(100, retrievedProduct.getQuantity());
+        // Verify that the saved product has the correct attributes
+        assertEquals("Test Product", savedProduct.getName());
+        assertEquals(10.0, savedProduct.getPrice());
+        assertEquals(100, savedProduct.getQuantity());
     }
 }
