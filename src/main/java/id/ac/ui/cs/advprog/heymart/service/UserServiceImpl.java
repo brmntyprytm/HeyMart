@@ -27,11 +27,16 @@ public class UserServiceImpl implements UserService {
         }
 
         boolean isAdmin = checkLoggedInUserIsAdmin();
+        boolean isManager = user.getRole().equals("manager");
 
         if (isAdmin) {
             user.setRole("admin");
         } else {
             user.setRole("user");
+        }
+
+        if (isManager) {
+            user.setRole("manager");
         }
 
         try {
