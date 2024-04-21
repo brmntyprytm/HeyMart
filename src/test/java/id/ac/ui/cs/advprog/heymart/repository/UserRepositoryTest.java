@@ -19,7 +19,7 @@ public class UserRepositoryTest {
         User savedUser = userRepository.save(user);
         assertNotNull(savedUser.getId());
 
-        User retrievedUser = userRepository.findById(savedUser.getId());
+        User retrievedUser = userRepository.findByUsername(savedUser.getUsername());
         assertNotNull(retrievedUser);
         assertEquals(savedUser.getId(), retrievedUser.getId());
         assertEquals("test_user", retrievedUser.getUsername());
