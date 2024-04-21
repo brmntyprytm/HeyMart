@@ -10,11 +10,14 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class ProductControllerTest {
 
@@ -49,5 +52,22 @@ public class ProductControllerTest {
         assertEquals("Product2", responseEntity.getBody().get(1).getName());
         assertEquals(15.0, responseEntity.getBody().get(1).getPrice());
         assertEquals(8, responseEntity.getBody().get(1).getQuantity());
+    }
+
+    @Test
+    public void testCreateProduct() {
+        // Arrange
+        Product product = new Product();
+        product.setName("Test Product");
+
+        when(productService.createProduct(product)).thenReturn(product);
+
+        // Act
+        ResponseEntity<Product> responseEntity = productController.createProduct(product);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals(product, responseEntity.getBody());
+        verify(productService, times(1)).createProduct(product);
     }
 }

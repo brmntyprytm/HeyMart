@@ -69,4 +69,25 @@ public class ProductRepositoryTest {
         assertEquals(10.0, savedProduct.getPrice());
         assertEquals(100, savedProduct.getQuantity());
     }
+
+    @Test
+    void testUpdateProduct() {
+        // Create a product with initial data
+        Product initialProduct = new Product("Initial Product", 10.0, 50);
+
+        // Mocking repository behavior to return the initial product when saving
+        when(productRepository.save(any())).thenReturn(initialProduct);
+        when(productRepository.findById(any())).thenReturn(Optional.of(initialProduct));
+
+        // Call the service method to update the product
+        Product updatedProduct = productService.updateProduct(initialProduct.getId(), "Updated Product", 15.0, 100);
+
+        // Verify that the updated product is not null
+        assertNotNull(updatedProduct);
+
+        // Verify that the updated product has the correct attributes
+        assertEquals("Updated Product", updatedProduct.getName());
+        assertEquals(15.0, updatedProduct.getPrice());
+        assertEquals(100, updatedProduct.getQuantity());
+    }
 }
