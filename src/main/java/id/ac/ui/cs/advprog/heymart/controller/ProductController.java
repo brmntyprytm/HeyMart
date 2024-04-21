@@ -5,10 +5,7 @@ import id.ac.ui.cs.advprog.heymart.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,4 +28,18 @@ public class ProductController {
         Product createdProduct = productService.createProduct(product);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
+
+    @PutMapping("/products")
+    public ResponseEntity<Product> updateProduct(
+            @RequestParam Long productId,
+            @RequestParam String name,
+            @RequestParam Double price,
+            @RequestParam Integer quantity) {
+        Product updatedProduct = productService.updateProduct(productId, name, price, quantity);
+        if (updatedProduct != null) {
+            return ResponseEntity.ok(updatedProduct);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+}
 }
