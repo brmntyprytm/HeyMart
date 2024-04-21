@@ -95,4 +95,17 @@ public class ProductControllerTest {
         assertEquals(updatedProduct, responseEntity.getBody());
         verify(productService, times(1)).updateProduct(productId, updatedName, updatedPrice, updatedQuantity);
     }
+
+    @Test
+    public void testDeleteProduct() {
+        // Arrange
+        Long productId = 1L;
+
+        // Act
+        ResponseEntity<Void> responseEntity = productController.deleteProduct(productId);
+
+        // Assert
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        verify(productService, times(1)).deleteProduct(productId);
+    }
 }
