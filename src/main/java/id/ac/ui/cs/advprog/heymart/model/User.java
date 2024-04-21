@@ -2,16 +2,30 @@ package id.ac.ui.cs.advprog.heymart.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import jakarta.persistence.*;
 
 @Getter
 @Setter
+@Entity
+@Table(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String role;
+
     public User() {}
 
     public User(Long id, String username, String password, String email, String role) {
@@ -29,8 +43,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
                 '}';
-
-
     }
 }

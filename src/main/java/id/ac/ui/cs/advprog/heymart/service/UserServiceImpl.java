@@ -11,16 +11,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public boolean registerUser(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
-            return false;
-        }
-
-        userRepository.save(user);
-        return true;
-    }
-
-    @Override
     public boolean loginUser(String username, String password) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -28,6 +18,37 @@ public class UserServiceImpl implements UserService {
         }
 
         return user.getPassword().equals(password);
+    }
+
+    @Override
+    public boolean registerUser(User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            return false;
+        }
+
+        boolean isAdmin = checkLoggedInUserIsAdmin();
+        boolean isManager = user.getRole().equals("manager");
+
+        if (isAdmin) {
+            user.setRole("admin");
+        } else {
+            user.setRole("user");
+        }
+
+        if (isManager) {
+            user.setRole("manager");
+        }
+
+        try {
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean checkLoggedInUserIsAdmin() {
+        return false;
     }
 }
 

@@ -46,15 +46,15 @@ public class UserController {
         boolean isLoggedIn = userService.loginUser(user.getUsername(), user.getPassword());
         if (isLoggedIn) {
             redirectAttributes.addFlashAttribute("username", user.getUsername());
-            return "redirect:/greeting";
+            return "redirect:/home";
         } else {
             model.addAttribute("message", "Login failed. Please try again.");
             return "login";
         }
     }
 
-    @GetMapping("/greeting")
+    @GetMapping("/home")
     public String greetingPage(Model model) {
-        return "greeting";
+        return "home";
     }
 }
