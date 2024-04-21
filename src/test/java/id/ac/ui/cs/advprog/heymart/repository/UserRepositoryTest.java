@@ -15,7 +15,7 @@ public class UserRepositoryTest {
 
     @Test
     void testSaveUser() {
-        User user = new User(null, "test_user", "test_password", "test@example.com");
+        User user = new User(null, "test_user", "test_password", "test@example.com", "Manager");
         User savedUser = userRepository.save(user);
         assertNotNull(savedUser.getId());
 
