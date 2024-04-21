@@ -16,6 +16,11 @@ public class UserRepositoryTest {
     @Test
     void testSaveUser() {
         User user = new User(null, "test_user", "test_password", "test@example.com", "Manager");
+
+        if (userRepository.existsByUsername(user.getUsername())) {
+            userRepository.delete(userRepository.findByUsername(user.getUsername()));
+        }
+
         User savedUser = userRepository.save(user);
         assertNotNull(savedUser.getId());
 
