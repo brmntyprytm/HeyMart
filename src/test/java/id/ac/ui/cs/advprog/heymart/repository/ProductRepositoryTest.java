@@ -16,6 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -91,6 +92,18 @@ public class ProductRepositoryTest {
         assertEquals(100, updatedProduct.getQuantity());
     }
 
+    @Test
+    void testDeleteProduct() {
+        // Create a product with a known ID
+        Long productId = 1L;
 
+        // Mocking repository behavior
+        when(productRepository.findById(productId)).thenReturn(Optional.of(new Product()));
 
+        // Call the service method to delete the product
+        productService.deleteProduct(productId);
+
+        // Verify that the delete method of the repository is called with the correct ID
+        verify(productRepository).deleteById(productId);
+    }
 }
