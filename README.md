@@ -4,6 +4,8 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=PejuangAdpro_HeyMart&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=PejuangAdpro_HeyMart)
 
+HeyMart has been successfully deployed using Koyeb. You can access the website [here](https://heymart-brmntyprytm.koyeb.app/).
+
 ### Team Members:
 1. `andikaprmdyaa` - Andika Pramudya Wardana / 2206046645
 
@@ -17,6 +19,12 @@
    Responsible for:
    - Continuous Integration 
       - [x] Set Up CI with SonarCloud
+   - Continuous Deployment
+      - [x] Set Up CD with Koyeb (this took an embarrassingly long time to figure out)
+   - Styling
+     -  [x] Set Up Tailwind CSS
+     -  [x] Styled Landing, Login and Register Page
+     -  [ ] Styled Home Page
    - Authentication (🧑‍)
       - [x] Users can register
       - [x] Users can login
