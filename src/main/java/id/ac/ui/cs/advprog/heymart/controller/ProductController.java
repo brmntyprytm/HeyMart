@@ -29,19 +29,17 @@ public class ProductController {
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
-    @PutMapping("/products")
+    @PutMapping("/products/{productId}")
     public ResponseEntity<Product> updateProduct(
-            @RequestParam Long productId,
-            @RequestParam String name,
-            @RequestParam Double price,
-            @RequestParam Integer quantity) {
-        Product updatedProduct = productService.updateProduct(productId, name, price, quantity);
+            @PathVariable Long productId,
+            @RequestBody Product product) {
+        Product updatedProduct = productService.updateProduct(productId, product.getName(), product.getPrice(), product.getQuantity());
         if (updatedProduct != null) {
             return ResponseEntity.ok(updatedProduct);
         } else {
             return ResponseEntity.notFound().build();
         }
-}
+    }
 
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {

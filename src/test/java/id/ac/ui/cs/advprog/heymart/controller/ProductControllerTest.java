@@ -88,7 +88,7 @@ public class ProductControllerTest {
                 .thenReturn(updatedProduct);
 
         // Act
-        ResponseEntity<Product> responseEntity = productController.updateProduct(productId, updatedName, updatedPrice, updatedQuantity);
+        ResponseEntity<Product> responseEntity = productController.updateProduct(productId, updatedProduct);
 
         // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
