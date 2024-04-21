@@ -97,9 +97,6 @@ public class ProductRepositoryTest {
         // Create a product with a known ID
         Long productId = 1L;
 
-        // Mocking repository behavior
-        when(productRepository.findById(productId)).thenReturn(Optional.of(new Product()));
-
         // Call the service method to delete the product
         productService.deleteProduct(productId);
 
