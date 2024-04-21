@@ -70,4 +70,29 @@ public class ProductControllerTest {
         assertEquals(product, responseEntity.getBody());
         verify(productService, times(1)).createProduct(product);
     }
+
+    @Test
+    public void testUpdateProduct() {
+        // Arrange
+        Long productId = 1L;
+        String updatedName = "Updated Product";
+        Double updatedPrice = 25.0;
+        Integer updatedQuantity = 50;
+        Product updatedProduct = new Product();
+        updatedProduct.setId(productId);
+        updatedProduct.setName(updatedName);
+        updatedProduct.setPrice(updatedPrice);
+        updatedProduct.setQuantity(updatedQuantity);
+
+        when(productService.updateProduct(productId, updatedName, updatedPrice, updatedQuantity))
+                .thenReturn(updatedProduct);
+
+        // Act
+        ResponseEntity<Product> responseEntity = productController.updateProduct(productId, updatedName, updatedPrice, updatedQuantity);
+
+        // Assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(updatedProduct, responseEntity.getBody());
+        verify(productService, times(1)).updateProduct(productId, updatedName, updatedPrice, updatedQuantity);
+    }
 }
