@@ -26,28 +26,74 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void testRegisterUser_Successful() {
-        User user = new User(null, "test_user", "password123", "test@example.com", "Manager");
+    public void testRegisterUserSuccess() {
+        User user = new User();
+        user.setUsername("testUser");
+        user.setRole("user");
 
-        when(userRepository.existsByUsername("test_user")).thenReturn(false);
+        when(userRepository.existsByUsername("testUser")).thenReturn(false);
         when(userRepository.save(user)).thenReturn(user);
 
         assertTrue(userService.registerUser(user));
-
-        verify(userRepository, times(1)).existsByUsername("test_user");
+        verify(userRepository, times(1)).existsByUsername("testUser");
         verify(userRepository, times(1)).save(user);
     }
 
     @Test
-    void testRegisterUser_Failure_UsernameExists() {
-        User user = new User(null, "existing_user", "password123", "test@example.com", "Manager");
+    public void testRegisterUserWithExistingUsername() {
+        User user = new User();
+        user.setUsername("existingUser");
+        user.setRole("user");
 
-        when(userRepository.existsByUsername("existing_user")).thenReturn(true);
+        when(userRepository.existsByUsername("existingUser")).thenReturn(true);
 
         assertFalse(userService.registerUser(user));
-
-        verify(userRepository, times(1)).existsByUsername("existing_user");
+        verify(userRepository, times(1)).existsByUsername("existingUser");
         verify(userRepository, never()).save(user);
+    }
+
+    @Test
+    public void testRegisterUserWithAdminRole() {
+        User user = new User();
+        user.setUsername("testAdmin");
+        user.setRole("user");
+
+        when(userRepository.existsByUsername("testAdmin")).thenReturn(false);
+        when(userRepository.save(user)).thenReturn(user);
+
+        user.setRole("admin");
+
+        assertTrue(userService.registerUser(user));
+        verify(userRepository, times(1)).existsByUsername("testAdmin");
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    public void testRegisterUserWithManagerRole() {
+        User user = new User();
+        user.setUsername("testManager");
+        user.setRole("manager");
+
+        when(userRepository.existsByUsername("testManager")).thenReturn(false);
+        when(userRepository.save(user)).thenReturn(user);
+
+        assertTrue(userService.registerUser(user));
+        verify(userRepository, times(1)).existsByUsername("testManager");
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    public void testRegisterUserWithException() {
+        User user = new User();
+        user.setUsername("testUser");
+        user.setRole("user");
+
+        when(userRepository.existsByUsername("testUser")).thenReturn(false);
+        when(userRepository.save(user)).thenThrow(new RuntimeException("Database connection failed"));
+
+        assertFalse(userService.registerUser(user));
+        verify(userRepository, times(1)).existsByUsername("testUser");
+        verify(userRepository, times(1)).save(user);
     }
 
     @Test
