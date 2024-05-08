@@ -1,10 +1,18 @@
 package id.ac.ui.cs.advprog.heymart.controller;
 
 import id.ac.ui.cs.advprog.heymart.model.User;
+import id.ac.ui.cs.advprog.heymart.repository.UserRepository;
 import id.ac.ui.cs.advprog.heymart.service.UserService;
+import id.ac.ui.cs.advprog.heymart.validator.UserValidator;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -13,6 +21,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserValidator userValidator;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/")
     public String landingPage() {
@@ -31,11 +45,18 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user, Model model) {
+    public String registerUser(@ModelAttribute @Validated User user, BindingResult bindingResult, Model model) {
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
+
         boolean isRegistered = userService.registerUser(user);
         if (isRegistered) {
+            model.addAttribute("success", true);
             return "redirect:/login";
         } else {
+            model.addAttribute("error", true);
             model.addAttribute("message", "Registration failed. Please try again.");
             return "register";
         }
@@ -45,16 +66,66 @@ public class UserController {
     public String loginUser(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
         boolean isLoggedIn = userService.loginUser(user.getUsername(), user.getPassword());
         if (isLoggedIn) {
-            redirectAttributes.addFlashAttribute("username", user.getUsername());
-            return "redirect:/greeting";
+            User loggedInUser = userRepository.findByUsername(user.getUsername());
+            redirectAttributes.addFlashAttribute("username", loggedInUser.getUsername());
+            redirectAttributes.addFlashAttribute("role", loggedInUser.getRole());
+
+            if ("manager".equalsIgnoreCase(loggedInUser.getRole())) {
+                return "redirect:/managerHome"; // Redirect manager to manager's home page
+            }
+            else if ("admin".equalsIgnoreCase(loggedInUser.getRole())) {
+                return "redirect:/adminHome"; // Redirect admin to admin's home page
+            }
+            else {
+                return "redirect:/home"; // Redirect regular user to home page
+            }
+
+
+
         } else {
             model.addAttribute("message", "Login failed. Please try again.");
             return "login";
         }
     }
 
-    @GetMapping("/greeting")
-    public String greetingPage(Model model) {
-        return "greeting";
+    @GetMapping("/home")
+    public String greetingPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model) {
+        model.addAttribute("username", username);
+        model.addAttribute("role", role);
+        return "home";
+    }
+
+    @GetMapping("/managerHome")
+    public String managerPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model) {
+        model.addAttribute("username", username);
+        model.addAttribute("role", role);
+        return "managerHome";
+    }
+
+    @GetMapping("/adminHome")
+    public String adminPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model) {
+        model.addAttribute("username", username);
+        model.addAttribute("role", role);
+        return "adminHome";
+    }
+
+    @PostMapping("/logout")
+    public String logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        SecurityContextHolder.clearContext();
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("JSESSIONID")) {
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                    break;
+                }
+            }
+        }
+
+        return "redirect:/";
     }
 }
+
+

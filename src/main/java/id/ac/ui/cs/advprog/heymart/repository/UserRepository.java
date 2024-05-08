@@ -1,42 +1,9 @@
 package id.ac.ui.cs.advprog.heymart.repository;
-import org.springframework.stereotype.Repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import id.ac.ui.cs.advprog.heymart.model.User;
-import java.util.List;
-import java.util.ArrayList;
 
-@Repository
-public class UserRepository {
-
-    private final List<User> users = new ArrayList<>();
-    private Long idCounter = 1L;
-
-    public User save(User user) {
-        user.setId(idCounter++);
-        users.add(user);
-        return user;
-    }
-
-    public User findById(Long id) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public User findByUsername(String username) {
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public boolean existsByUsername(String username) {
-        return findByUsername(username) != null;
-    }
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByUsername(String username);
+    boolean existsByUsername(String username);
 }
-
-

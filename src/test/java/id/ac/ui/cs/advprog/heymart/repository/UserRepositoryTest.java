@@ -15,11 +15,16 @@ public class UserRepositoryTest {
 
     @Test
     void testSaveUser() {
-        User user = new User(null, "test_user", "test_password", "test@example.com");
+        User user = new User(null, "test_user", "test_password", "test@example.com", "manager");
+
+        if (userRepository.existsByUsername(user.getUsername())) {
+            userRepository.delete(userRepository.findByUsername(user.getUsername()));
+        }
+
         User savedUser = userRepository.save(user);
         assertNotNull(savedUser.getId());
 
-        User retrievedUser = userRepository.findById(savedUser.getId());
+        User retrievedUser = userRepository.findByUsername(savedUser.getUsername());
         assertNotNull(retrievedUser);
         assertEquals(savedUser.getId(), retrievedUser.getId());
         assertEquals("test_user", retrievedUser.getUsername());

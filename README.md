@@ -17,6 +17,8 @@ HeyMart has been successfully deployed using Koyeb. You can access the website [
 2. `brmntyprytm` - Bramantyo Priyo Utomo / 2206821563
 
    Responsible for:
+   - Database
+      - [x] Established connection to Railway PostgreSQL
    - Continuous Integration 
       - [x] Set Up CI with SonarCloud
    - Continuous Deployment
@@ -24,11 +26,10 @@ HeyMart has been successfully deployed using Koyeb. You can access the website [
    - Styling
      -  [x] Set Up Tailwind CSS
      -  [x] Styled Landing, Login and Register Page
-     -  [ ] Styled Home Page
    - Authentication (🧑‍)
       - [x] Users can register
       - [x] Users can login
-      - [ ] Users can logout
+      - [x] Users can logout
 
    - Manage Shopping Cart (🧑‍)
       - [ ] Buyers can view the Shopping Cart

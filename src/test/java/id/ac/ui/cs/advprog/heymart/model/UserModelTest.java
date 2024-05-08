@@ -7,7 +7,7 @@ public class UserModelTest {
 
     @Test
     void testUserConstructorAndGetters() {
-        User user = new User(1L, "john_doe", "password123", "john.doe@example.com");
+        User user = new User(1L, "john_doe", "password123", "john.doe@example.com", "Manager");
 
         assertEquals(1L, user.getId());
         assertEquals("john_doe", user.getUsername());
@@ -17,7 +17,7 @@ public class UserModelTest {
 
     @Test
     void testUserToString() {
-        User user = new User(1L, "john_doe", "password123", "john.doe@example.com");
+        User user = new User(1L, "john_doe", "password123", "john.doe@example.com", "Manager");
 
         assertNotNull(user.toString());
     }
