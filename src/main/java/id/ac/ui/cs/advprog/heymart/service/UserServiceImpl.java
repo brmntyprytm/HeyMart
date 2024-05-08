@@ -26,16 +26,15 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        boolean isAdmin = checkLoggedInUserIsAdmin();
-        boolean isManager = user.getRole().equals("manager");
+        user.setRole("user");
+
+        boolean isAdmin = user.getUsername().equals("admin");
 
         if (isAdmin) {
             user.setRole("admin");
-        } else {
-            user.setRole("user");
         }
 
-        if (isManager) {
+        if (user.getRole().equals("manager")) {
             user.setRole("manager");
         }
 
@@ -45,10 +44,6 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    private boolean checkLoggedInUserIsAdmin() {
-        return false;
     }
 }
 
