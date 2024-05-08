@@ -21,7 +21,7 @@ public class SupermarketController {
     @GetMapping("/supermarkets")
     public String getAllSupermarkets(Model model) {
         model.addAttribute("supermarkets", supermarketService.getAllSupermarkets());
-        return "supermarkets"; // This corresponds to your Thymeleaf template
+        return "supermarkets";
     }
 
     @PostMapping("/supermarkets")
