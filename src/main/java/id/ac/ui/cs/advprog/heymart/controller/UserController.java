@@ -70,23 +70,24 @@ public class UserController {
             redirectAttributes.addFlashAttribute("username", loggedInUser.getUsername());
             redirectAttributes.addFlashAttribute("role", loggedInUser.getRole());
 
+            // Set success attribute for displaying success message
+            redirectAttributes.addFlashAttribute("success", true);
+
+            // Redirect based on user role
             if ("manager".equalsIgnoreCase(loggedInUser.getRole())) {
                 return "redirect:/managerHome"; // Redirect manager to manager's home page
-            }
-            else if ("admin".equalsIgnoreCase(loggedInUser.getRole())) {
+            } else if ("admin".equalsIgnoreCase(loggedInUser.getRole())) {
                 return "redirect:/adminHome"; // Redirect admin to admin's home page
-            }
-            else {
+            } else {
                 return "redirect:/home"; // Redirect regular user to home page
             }
-
-
-
         } else {
-            model.addAttribute("message", "Login failed. Please try again.");
-            return "login";
+            // Set error attribute for displaying error message
+            redirectAttributes.addFlashAttribute("error", true);
+            return "redirect:/login"; // Redirect back to login page
         }
     }
+
 
     @GetMapping("/home")
     public String greetingPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model) {

@@ -24,6 +24,13 @@
                     <input type="submit" value="Login" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 </div>
             </form>
+            <div th:if="${success}">
+                <p style="color: green;">Login successful. Redirecting...</p>
+            </div>
+            <!-- Error message -->
+            <div th:if="${error}">
+                <p style="color: red;">Login failed. Please check your username and password.</p>
+            </div>
         </div>
     </div>
 </div>
@@ -31,5 +38,7 @@
     <h1 class="text-3xl font-extrabold">Bram's Note:</h1>
     <p>Authentication feature is still in its early stages of development, please do not enter any sensitive information. Thank you for your understanding!</p>
 </div>
+
+
 </body>
 </html>
