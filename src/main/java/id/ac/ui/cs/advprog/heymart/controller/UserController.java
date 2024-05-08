@@ -4,7 +4,11 @@ import id.ac.ui.cs.advprog.heymart.model.User;
 import id.ac.ui.cs.advprog.heymart.repository.UserRepository;
 import id.ac.ui.cs.advprog.heymart.service.UserService;
 import id.ac.ui.cs.advprog.heymart.validator.UserValidator;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -68,9 +72,16 @@ public class UserController {
 
             if ("manager".equalsIgnoreCase(loggedInUser.getRole())) {
                 return "redirect:/managerHome"; // Redirect manager to manager's home page
-            } else {
+            }
+            else if ("admin".equalsIgnoreCase(loggedInUser.getRole())) {
+                return "redirect:/adminHome"; // Redirect admin to admin's home page
+            }
+            else {
                 return "redirect:/home"; // Redirect regular user to home page
             }
+
+
+
         } else {
             model.addAttribute("message", "Login failed. Please try again.");
             return "login";
@@ -89,6 +100,31 @@ public class UserController {
         model.addAttribute("username", username);
         model.addAttribute("role", role);
         return "managerHome";
+    }
+
+    @GetMapping("/adminHome")
+    public String adminPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model) {
+        model.addAttribute("username", username);
+        model.addAttribute("role", role);
+        return "adminHome";
+    }
+
+    @PostMapping("/logout")
+    public String logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        SecurityContextHolder.clearContext();
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("JSESSIONID")) {
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                    break;
+                }
+            }
+        }
+
+        return "redirect:/";
     }
 }
 
