@@ -1,8 +1,10 @@
 package id.ac.ui.cs.advprog.heymart.controller;
 
+import id.ac.ui.cs.advprog.heymart.model.Product;
 import id.ac.ui.cs.advprog.heymart.model.User;
 import id.ac.ui.cs.advprog.heymart.repository.UserRepository;
 import id.ac.ui.cs.advprog.heymart.service.UserService;
+import id.ac.ui.cs.advprog.heymart.service.ProductService;
 import id.ac.ui.cs.advprog.heymart.validator.UserValidator;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+import java.util.List;
+
 @Controller
 public class UserController {
 
@@ -27,6 +32,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/")
     public String landingPage() {
@@ -75,7 +83,7 @@ public class UserController {
 
             // Redirect based on user role
             if ("manager".equalsIgnoreCase(loggedInUser.getRole())) {
-                return "redirect:/managerHome"; // Redirect manager to manager's home page
+                return "redirect:/listProduct"; // Redirect manager to manager's home page
             } else if ("admin".equalsIgnoreCase(loggedInUser.getRole())) {
                 return "redirect:/adminHome"; // Redirect admin to admin's home page
             } else {
@@ -126,6 +134,28 @@ public class UserController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/listProduct")
+    public String listProduct(Model model, Principal principal) {
+        String username = null;
+        String role = "USER"; // Default role if not available
+
+        if (principal != null) {
+            username = principal.getName();
+            // Assuming you have a method to retrieve the user's role, replace "getUserRole()" with the actual method
+            // For example: role = userService.getUserRole(username);
+            // Here, userService is the service responsible for user-related operations
+        }
+
+        model.addAttribute("username", username);
+        model.addAttribute("role", role);
+
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("products", products);
+
+        // Returning the name of the HTML template containing the table
+        return "listProduct"; // Assuming the name of your Thymeleaf template is 'listProduct.html'
     }
 }
 

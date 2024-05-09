@@ -49,32 +49,4 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-
-    @GetMapping("/listProduct")
-    public String listProduct(Model model, Principal principal) {
-        String username = null;
-        String role = "USER"; // Default role if not available
-
-        if (principal != null) {
-            username = principal.getName();
-            // Assuming you have a method to retrieve the user's role, replace "getUserRole()" with the actual method
-            // For example: role = userService.getUserRole(username);
-            // Here, userService is the service responsible for user-related operations
-        }
-
-        model.addAttribute("username", username);
-        model.addAttribute("role", role);
-
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
-
-        // Returning the name of the HTML template containing the table
-        return "listProduct"; // Assuming the name of your Thymeleaf template is 'listProduct.html'
-    }
-
-
-
-
-
-
 }
