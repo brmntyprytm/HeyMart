@@ -83,11 +83,11 @@ public class UserController {
 
             // Redirect based on user role
             if ("manager".equalsIgnoreCase(loggedInUser.getRole())) {
-                return "redirect:/listProduct"; // Redirect manager to manager's home page
+                return "redirect:/listProductManager"; // Redirect manager to manager's home page
             } else if ("admin".equalsIgnoreCase(loggedInUser.getRole())) {
                 return "redirect:/adminHome"; // Redirect admin to admin's home page
             } else {
-                return "redirect:/home"; // Redirect regular user to home page
+                return "redirect:/listProductUser"; // Redirect regular user to home page
             }
         } else {
             // Set error attribute for displaying error message
@@ -97,11 +97,15 @@ public class UserController {
     }
 
 
-    @GetMapping("/home")
+    @GetMapping("/listProductUser")
     public String greetingPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model) {
         model.addAttribute("username", username);
         model.addAttribute("role", role);
-        return "home";
+
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("products", products);
+
+        return "listProductUser";
     }
 
     @GetMapping("/managerHome")
@@ -136,8 +140,8 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/listProduct")
-    public String listProduct(Model model, Principal principal) {
+    @GetMapping("/listProductManager")
+    public String listProductManager(Model model, Principal principal) {
         String username = null;
         String role = "USER"; // Default role if not available
 
@@ -155,7 +159,7 @@ public class UserController {
         model.addAttribute("products", products);
 
         // Returning the name of the HTML template containing the table
-        return "listProduct"; // Assuming the name of your Thymeleaf template is 'listProduct.html'
+        return "listProductManager"; // Assuming the name of your Thymeleaf template is 'listProductManager.html'
     }
 }
 
