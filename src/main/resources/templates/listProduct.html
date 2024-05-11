@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./output.css" rel="stylesheet">
-    <title>Greeting</title>
+    <title>List Products</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-gray-900 text-white font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
 <div class="text-center">
@@ -22,6 +23,7 @@
             <th class="border border-gray-600 px-4 py-2">Product Name</th>
             <th class="border border-gray-600 px-4 py-2">Product Price</th>
             <th class="border border-gray-600 px-4 py-2">Product Quantity</th>
+            <th class="border border-gray-600 px-4 py-2">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -30,9 +32,42 @@
             <td class="border border-gray-600 px-4 py-2" th:text="${product.name}"></td>
             <td class="border border-gray-600 px-4 py-2" th:text="${product.price}"></td>
             <td class="border border-gray-600 px-4 py-2" th:text="${product.quantity}"></td>
+            <!-- Buttons for delete and edit actions -->
+            <!-- Buttons for delete and edit actions -->
+            <td class="border border-gray-600 px-4 py-2">
+                <button class="delete-product bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline" data-product-id="${product.id}">Delete</button>
+                <button class="edit-product bg-orange-500 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline" data-product-id="${product.id}">Edit</button>
+            </td>
+
         </tr>
         </tbody>
     </table>
 </div>
+
+<script>
+    // Function to handle delete product action
+    $('.delete-product').click(function() {
+        var productId = $(this).data('product-id');
+        $.ajax({
+            url: '/products/' + productId,
+            type: 'DELETE',
+            success: function(result) {
+                // Reload the page after successful deletion
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                // Handle error (optional)
+                console.error(error);
+            }
+        });
+    });
+
+    // Function to handle edit product action (placeholder)
+    $('.edit-product').click(function() {
+        alert("Edit action clicked for product with ID: " + $(this).data('product-id'));
+        // Implement your edit logic here using a modal or form (optional)
+    });
+</script>
+
 </body>
 </html>
