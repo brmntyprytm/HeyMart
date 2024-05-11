@@ -12,6 +12,7 @@
     <h1 class="text-6xl mb-6 font-extrabold">Welcome to HeyMart 👋</h1>
     <h2 class="text-3xl" th:text="'Hello, ' + ${username} + '! Your role is: ' + ${role}">Hello, username! role</h2>
     <h1 class="text-3xl mb-6 font-extrabold">You're the manager</h1>
+    <button onclick="window.location.href='/managerHome'" class="block w-full bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Product</button>
     <form action="/logout" method="post">
         <button type="submit" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</button>
     </form>
@@ -33,12 +34,10 @@
             <td class="border border-gray-600 px-4 py-2" th:text="${product.price}"></td>
             <td class="border border-gray-600 px-4 py-2" th:text="${product.quantity}"></td>
             <!-- Buttons for delete and edit actions -->
-            <!-- Buttons for delete and edit actions -->
             <td class="border border-gray-600 px-4 py-2">
                 <button class="delete-product bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline" th:data-product-id="${product.id}">Delete</button>
                 <button class="edit-product bg-orange-500 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline" th:data-product-id="${product.id}">Edit</button>
             </td>
-
         </tr>
         </tbody>
     </table>
@@ -70,9 +69,6 @@
             console.error("Invalid product ID:", productIdStr);
         }
     });
-
-
-
 
     // Function to handle edit product action (placeholder)
     $('.edit-product').click(function() {
