@@ -5,7 +5,7 @@ import id.ac.ui.cs.advprog.heymart.model.Balance;
 public interface BalanceService {
     Balance add(Balance balance);
     Balance findById(Long id);
-    double topUp(Long id, double amount);
+    double topUp(String username, double amount);
     double withdraw(Long id, double amount);
     boolean checkoutUpdate();
 }
