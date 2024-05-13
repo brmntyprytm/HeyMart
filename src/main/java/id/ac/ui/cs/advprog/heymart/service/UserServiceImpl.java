@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setRole("user");
+        user.setBalance(0.0);
 
         boolean isAdmin = user.getUsername().equals("admin");
 
