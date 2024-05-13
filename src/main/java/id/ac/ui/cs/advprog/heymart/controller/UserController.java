@@ -157,6 +157,18 @@ public class UserController {
         // Returning the name of the HTML template containing the table
         return "listProduct"; // Assuming the name of your Thymeleaf template is 'listProduct.html'
     }
+
+    @GetMapping("/edit-product/{productId}")
+    public String editProductPage(@PathVariable Long productId, Model model) {
+        Product product = productService.getProductById(productId);
+        if (product != null) {
+            model.addAttribute("product", product);
+            return "editProduct";
+        } else {
+            // If product not found, redirect to error page or handle appropriately
+            return "listProduct"; // Assuming you have an error.html template
+        }
+    }
 }
 
 

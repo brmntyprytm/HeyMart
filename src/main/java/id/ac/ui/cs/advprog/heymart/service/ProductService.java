@@ -18,12 +18,12 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product createProduct(Product product) {
+    public synchronized Product createProduct(Product product) {
         // Save the product to the database using the repository
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Long productId, String name, Double price, Integer quantity) {
+    public synchronized Product updateProduct(Long productId, String name, Double price, Integer quantity) {
         // Retrieve the product from the database
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
@@ -42,9 +42,15 @@ public class ProductService {
         }
     }
 
+    public Product getProductById(Long productId) {
+        // Retrieve the product from the database by its ID
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        return optionalProduct.orElse(null); // Return null if product not found
+    }
 
     public void deleteProduct(Long productId) {
         // Delete the product from the database using the repository
         productRepository.deleteById(productId);
     }
+
 }
