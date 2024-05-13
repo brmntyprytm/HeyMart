@@ -29,6 +29,9 @@ public class User {
     @Column(nullable = true)
     private Double balance;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ShoppingCart shoppingCart;
+
     public User() {}
 
     public User(Long id, String username, String password, String email, String role) {
