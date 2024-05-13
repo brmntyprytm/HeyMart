@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/output.css" rel="stylesheet">
     <title>Edit Product</title>
-    <link href="./output.css" rel="stylesheet">
 </head>
 <body class="bg-gray-900 text-white font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
 <div class="max-w-md bg-white rounded-lg shadow-md p-8 text-center">
@@ -50,7 +50,7 @@
             contentType: 'application/json',
             data: JSON.stringify(updatedProductData),
             success: function(updatedProduct) {
-                window.location.replace("/listProduct")
+                window.location.replace("/listProductManager")
             },
             error: function(xhr, status, error) {
                 // Handle error (optional)

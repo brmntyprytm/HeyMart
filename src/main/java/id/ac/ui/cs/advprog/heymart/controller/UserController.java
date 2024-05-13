@@ -193,7 +193,7 @@ public class UserController {
             return "editProduct";
         } else {
             // If product not found, redirect to error page or handle appropriately
-            return "listProduct"; // Assuming you have an error.html template
+            return "listProductManager"; // Assuming you have an error.html template
         }
     }
 }
