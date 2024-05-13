@@ -185,7 +185,17 @@ public class UserController {
         return "shoppingCart";
     }
 
-
+    @GetMapping("/edit-product/{productId}")
+    public String editProductPage(@PathVariable String productId, Model model) {
+        Product product = productService.getProductById(productId);
+        if (product != null) {
+            model.addAttribute("product", product);
+            return "editProduct";
+        } else {
+            // If product not found, redirect to error page or handle appropriately
+            return "listProduct"; // Assuming you have an error.html template
+        }
+    }
 }
 
 
