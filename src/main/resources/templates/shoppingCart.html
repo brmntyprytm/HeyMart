@@ -12,37 +12,24 @@
     <h1 class="text-6xl mb-6 font-extrabold">Welcome to HeyMart 👋</h1>
     <h2 class="text-3xl" th:text="'Hello, ' + ${username} + '! Your role is: ' + ${role}">Hello, username! role</h2>
     <h1 class="text-3xl mb-6 font-extrabold">You're the user</h1>
-
-    <!-- Button to redirect to shopping cart -->
-    <a href="/shoppingCart" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4">View Shopping Cart</a>
-
     <form action="/logout" method="post">
         <button type="submit" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</button>
     </form>
 
-    <!-- Table to display products -->
     <table class="border-collapse border border-gray-600 mx-auto my-8">
         <thead>
         <tr>
             <th class="border border-gray-600 px-4 py-2">Product Name</th>
             <th class="border border-gray-600 px-4 py-2">Product Price</th>
             <th class="border border-gray-600 px-4 py-2">Product Quantity</th>
-            <th class="border border-gray-600 px-4 py-2">Action</th>
         </tr>
         </thead>
         <tbody>
-        <!-- Iterate over the products list and display each product -->
+        <!-- Iterate over the products in the user's shopping cart and display each product -->
         <tr th:each="product : ${products}">
             <td class="border border-gray-600 px-4 py-2" th:text="${product.name}"></td>
             <td class="border border-gray-600 px-4 py-2" th:text="${product.price}"></td>
             <td class="border border-gray-600 px-4 py-2" th:text="${product.quantity}"></td>
-            <td class="border border-gray-600 px-4 py-2">
-                <form th:action="@{/cart/add}" method="post">
-                    <input type="hidden" name="username" th:value="${username}" />
-                    <input type="hidden" name="productId" th:value="${product.id}" />
-                    <button type="submit">Add to Cart</button>
-                </form>
-            </td>
         </tr>
         </tbody>
     </table>

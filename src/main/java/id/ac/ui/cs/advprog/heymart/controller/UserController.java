@@ -9,6 +9,7 @@ import id.ac.ui.cs.advprog.heymart.validator.UserValidator;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -71,16 +72,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
-        boolean isLoggedIn = userService.loginUser(user.getUsername(), user.getPassword());
-        if (isLoggedIn) {
-            User loggedInUser = userRepository.findByUsername(user.getUsername());
-            redirectAttributes.addFlashAttribute("username", loggedInUser.getUsername());
-            redirectAttributes.addFlashAttribute("role", loggedInUser.getRole());
-
-            // Set success attribute for displaying success message
-            redirectAttributes.addFlashAttribute("success", true);
-
+    public String loginUser(@ModelAttribute User user, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        User loggedInUser = userService.authenticate(user.getUsername(), user.getPassword());
+        if (loggedInUser != null) {
+            // Store user's information in session
+            HttpSession session = request.getSession();
+            session.setAttribute("username", loggedInUser.getUsername());
+            session.setAttribute("role", loggedInUser.getRole());
             // Redirect based on user role
             if ("manager".equalsIgnoreCase(loggedInUser.getRole())) {
                 return "redirect:/listProductManager"; // Redirect manager to manager's home page
@@ -98,7 +96,11 @@ public class UserController {
 
 
     @GetMapping("/listProductUser")
-    public String greetingPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model) {
+    public String greetingPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        username = (String) session.getAttribute("username");
+        role = (String) session.getAttribute("role");
+
         model.addAttribute("username", username);
         model.addAttribute("role", role);
 
@@ -109,14 +111,22 @@ public class UserController {
     }
 
     @GetMapping("/managerHome")
-    public String managerPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model) {
+    public String managerPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        username = (String) session.getAttribute("username");
+        role = (String) session.getAttribute("role");
+
         model.addAttribute("username", username);
         model.addAttribute("role", role);
         return "managerHome";
     }
 
     @GetMapping("/adminHome")
-    public String adminPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model) {
+    public String adminPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        username = (String) session.getAttribute("username");
+        role = (String) session.getAttribute("role");
+
         model.addAttribute("username", username);
         model.addAttribute("role", role);
         return "adminHome";
@@ -125,6 +135,10 @@ public class UserController {
     @PostMapping("/logout")
     public String logoutUser(HttpServletRequest request, HttpServletResponse response) {
         SecurityContextHolder.clearContext();
+
+        HttpSession session = request.getSession();
+        session.removeAttribute("username");
+        session.removeAttribute("role");
 
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -141,12 +155,34 @@ public class UserController {
     }
 
     @GetMapping("/listProductManager")
-    public String listProductManager(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
+    public String listProductManager(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        username = (String) session.getAttribute("username");
+        role = (String) session.getAttribute("role");
+
+        model.addAttribute("username", username);
+        model.addAttribute("role", role);
+
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
 
         // Returning the name of the HTML template containing the table
         return "listProductManager"; // Assuming the name of your Thymeleaf template is 'listProductManager.html'
+    }
+
+    @GetMapping("/shoppingCart")
+    public String shoppingCart(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        username = (String) session.getAttribute("username");
+        role = (String) session.getAttribute("role");
+
+        model.addAttribute("username", username);
+        model.addAttribute("role", role);
+
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("products", user.getShoppingCart().getProducts()); // Get the list of products from the shopping cart
+
+        return "shoppingCart";
     }
 
 
