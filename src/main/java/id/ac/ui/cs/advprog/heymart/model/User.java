@@ -26,6 +26,10 @@ public class User {
     @Column(nullable = false)
     private String role;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ShoppingCart shoppingCart;
+
+
     public User() {}
 
     public User(Long id, String username, String password, String email, String role) {

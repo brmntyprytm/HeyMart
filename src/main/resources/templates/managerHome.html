@@ -8,12 +8,132 @@
 </head>
 <body class="bg-gray-900 text-white font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
 <div class="text-center">
-    <h1 class="text-6xl mb-6 font-extrabold">Welcome to HeyMart 👋</h1>
+    <h1 class="text-6xl mb-6 font-extrabold" style="color: White;">Welcome to HeyMart 👋</h1>
     <h2 class="text-3xl" th:text="'Hello, ' + ${username} + '! Your role is: ' + ${role}">Hello, username! role</h2>
     <h1 class="text-3xl mb-6 font-extrabold">You're the manager</h1>
+    <!-- Input fields for adding a product -->
+    <input type="text" id="productName" placeholder="Product Name" class="mb-2 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
+    <input type="text" id="productPrice" placeholder="Product Price (e.g., 123,000,000)" class="mb-2 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
+    <input type="text" id="productQuantity" placeholder="Product Quantity (e.g., 123,456,000)" class="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
+
+    <!-- Add Item button -->
+    <button id="addItemBtn" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Item</button>
+
+    <!-- Logout form -->
     <form action="/logout" method="post">
-        <button type="submit" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</button>
+        <button type="submit" id="logoutBtn" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4">Logout</button>
     </form>
+
+    <!-- Popup message -->
+    <div id="popupMessage" class="mt-4"></div>
 </div>
+
+<script>
+    // Get all input fields
+    const inputFields = document.querySelectorAll('input[type="text"]');
+
+    // Add event listeners to each input field
+    inputFields.forEach(inputField => {
+        // Add focus event listener
+        inputField.addEventListener('focus', () => {
+            // Change text color to black when input is focused
+            inputField.style.color = 'black';
+        });
+
+        // Add blur event listener
+        inputField.addEventListener('blur', () => {
+            // Change text color to gray when input loses focus and value is empty
+            if (!inputField.value.trim()) {
+                inputField.style.color = 'rgb(156, 163, 175)'; // Text-gray-700
+            }
+        });
+
+        // Add input event listener (to handle case where input value is changed without losing focus)
+        inputField.addEventListener('input', () => {
+            // Change text color to black when input has value
+            if (inputField.value.trim()) {
+                inputField.style.color = 'black';
+            }
+        });
+    });
+
+    // Price input field validation
+    const priceInput = document.getElementById('productPrice');
+    priceInput.addEventListener('input', function(event) {
+        // Remove any non-digit characters
+        const formattedValue = this.value.replace(/\D/g, '');
+        // Add commas every three digits from the right
+        const numberWithCommas = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        // Update the input field value with "Rp." prefix
+        this.value = `Rp. ${numberWithCommas}`;
+    });
+
+    // Quantity input field formatting
+    const quantityInput = document.getElementById('productQuantity');
+    quantityInput.addEventListener('input', function(event) {
+        // Remove any non-digit characters
+        let formattedValue = this.value.replace(/\D/g, '');
+        // Add commas every three digits from the right
+        formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        // Update the input field value
+        this.value = formattedValue;
+    });
+
+    // Function to show popup message
+    function showPopupMessage(message, isSuccess) {
+        const popupMessage = document.getElementById('popupMessage');
+        popupMessage.textContent = message;
+        popupMessage.style.fontSize = '26px';
+        popupMessage.style.fontFamily = 'Arial';
+        popupMessage.style.color = isSuccess ? 'green' : 'red';
+    }
+
+    document.getElementById("addItemBtn").addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get product details from the input fields
+        var productName = document.getElementById("productName").value;
+        var productPrice = parseInt(document.getElementById("productPrice").value.replace(/\D/g, ''));
+        var productQuantity = parseInt(document.getElementById("productQuantity").value.replace(/\D/g, ''));
+
+        // Check if inputs are valid
+        if (!productName || isNaN(productPrice) || isNaN(productQuantity)) {
+            alert("Please fill in all fields with valid data.");
+            return;
+        }
+
+        // Create a JSON object with the product details
+        var product = {
+            name: productName,
+            price: productPrice,
+            quantity: productQuantity
+        };
+
+        // Send a POST request to the backend endpoint to add the product
+        fetch('/products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(product)
+        }).then(response => {
+            if (response.ok) {
+                console.log("Product added successfully");
+                // Show success message
+                showPopupMessage("Data successfully inputted to the database table.", true);
+            } else {
+                console.error("Failed to add product");
+                // Show error message
+                showPopupMessage("Failed to input data to the database table.", false);
+            }
+        }).catch(error => {
+            console.error("Error:", error);
+            // Show error message
+            showPopupMessage("An error occurred while processing the request.", false);
+        });
+    });
+
+</script>
+
 </body>
 </html>

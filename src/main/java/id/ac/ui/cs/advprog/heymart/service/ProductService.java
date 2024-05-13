@@ -23,7 +23,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Long productId, String name, Double price, Integer quantity) {
+    public Product updateProduct(String productId, String name, Double price, Integer quantity) {
         // Retrieve the product from the database
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
@@ -43,7 +43,7 @@ public class ProductService {
     }
 
 
-    public void deleteProduct(Long productId) {
+    public void deleteProduct(String productId) {
         // Delete the product from the database using the repository
         productRepository.deleteById(productId);
     }
