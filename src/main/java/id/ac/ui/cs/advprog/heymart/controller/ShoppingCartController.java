@@ -3,8 +3,7 @@ package id.ac.ui.cs.advprog.heymart.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import id.ac.ui.cs.advprog.heymart.service.ShoppingCartService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/cart")
@@ -14,22 +13,22 @@ public class ShoppingCartController {
     private ShoppingCartService shoppingCartService;
 
     @PostMapping("/add")
-    public String addToCart(@RequestParam String username, @RequestParam String productId) {
+    public RedirectView addToCart(@RequestParam String username, @RequestParam String productId) {
         boolean added = shoppingCartService.addToCart(username, productId);
         if (added) {
-            return "Product added to cart successfully";
+            return new RedirectView("/listProductUser");
         } else {
-            return "Failed to add product to cart";
+            return new RedirectView("/listProductUser");
         }
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<String> removeFromCart(@RequestParam String username, @RequestParam String productId) {
+    public RedirectView removeFromCart(@RequestParam String username, @RequestParam String productId) {
         boolean removed = shoppingCartService.removeFromCart(username, productId);
         if (removed) {
-            return ResponseEntity.ok("Product removed from cart successfully");
+            return new RedirectView("/shoppingCart");
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to remove product from cart");
+            return new RedirectView("/shoppingCart");
         }
     }
 }
