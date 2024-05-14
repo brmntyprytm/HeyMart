@@ -35,4 +35,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCartRepository.save(shoppingCart);
         return true;
     }
+
+    @Override
+    public boolean removeFromCart(String username, String productId) {
+        User user = userRepository.findByUsername(username);
+        Product product = productRepository.findById(productId).orElse(null);
+
+        if (user == null || product == null) {
+            return false; // User or product not found
+        }
+
+        ShoppingCart shoppingCart = user.getShoppingCart();
+        shoppingCart.removeProduct(product);
+        shoppingCartRepository.save(shoppingCart);
+        return true;
+    }
 }

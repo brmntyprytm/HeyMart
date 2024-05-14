@@ -33,4 +33,8 @@ public class ShoppingCart {
         products.add(product);
     }
 
+    public void removeProduct(Product product) {
+        products.remove(product);
+    }
+
 }
