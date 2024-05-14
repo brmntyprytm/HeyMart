@@ -7,5 +7,5 @@ public interface BalanceService {
     Balance findById(Long id);
     double topUp(String username, double amount);
     double withdraw(Long id, double amount);
-    boolean checkoutUpdate();
+    boolean checkoutUpdate(String username, Long shopId, double amount);
 }
