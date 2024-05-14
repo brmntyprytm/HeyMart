@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+    <title>List Products</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
+<div class="text-center">
+    <h1 class="text-6xl mb-6 font-extrabold">Welcome to HeyMart 👋</h1>
+    <h2 class="text-3xl" th:text="'Hello, ' + ${username} + '! Your role is: ' + ${role}">Hello, username! role</h2>
+    <h1 class="text-3xl mb-6 font-extrabold">You're the user</h1>
+    <form action="/logout" method="post">
+        <button type="submit" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</button>
+    </form>
+
+    <table id="productTable" class="border-collapse border border-gray-600 mx-auto my-8">
+        <thead>
+        <tr>
+            <th class="border border-gray-600 px-4 py-2">Product Name</th>
+            <th class="border border-gray-600 px-4 py-2">Product Price</th>
+            <th class="border border-gray-600 px-4 py-2">Product Quantity</th>
+            <th class="border border-gray-600 px-4 py-2">Remove</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over the products in the user's shopping cart and display each product -->
+        <tr th:each="product : ${products}" id="productRow" th:id="'product-' + ${product.id}">
+            <td class="border border-gray-600 px-4 py-2" th:text="${product.name}"></td>
+            <td class="border border-gray-600 px-4 py-2" th:text="${product.price}"></td>
+            <td class="border border-gray-600 px-4 py-2" th:text="${product.quantity}"></td>
+            <td class="border border-gray-600 px-4 py-2">
+                <form th:action="@{/cart/remove}" method="post">
+                    <input type="hidden" name="username" th:value="${username}" />
+                    <input type="hidden" name="productId" th:value="${product.id}" />
+                    <button type="submit">Remove</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
