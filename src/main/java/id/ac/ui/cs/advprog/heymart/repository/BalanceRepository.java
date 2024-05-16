@@ -12,26 +12,12 @@ import java.util.Optional;
 
 @Repository
 public class BalanceRepository {
-    private List<Balance> balances = new ArrayList<>();
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private SupermarketRepository supermarketRepository;
-
-    public void add(Balance balance) {
-        balances.add(balance);
-    }
-
-    public Balance findById(Long Id) {
-        for (Balance b : balances) {
-            if (b.getId().equals(Id)) {
-                return b;
-            }
-        }
-        return null;
-    }
 
     @Transactional
     public double incrementUserBalance(String username, double amount) {

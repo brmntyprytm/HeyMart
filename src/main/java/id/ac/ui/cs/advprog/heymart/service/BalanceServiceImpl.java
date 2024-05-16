@@ -11,16 +11,6 @@ public class BalanceServiceImpl implements BalanceService{
     private BalanceRepository balanceRepository;
 
     @Override
-    public Balance add(Balance balance) {
-        balanceRepository.add(balance);
-        return balance;
-    }
-
-    @Override
-    public Balance findById(Long id){
-        return balanceRepository.findById(id);
-    }
-    @Override
     public double topUp(String username, double amount) {
         System.out.println("Service topup executed");
         return balanceRepository.incrementUserBalance(username, amount);
