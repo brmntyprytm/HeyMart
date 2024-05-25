@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirm Replacement</title>
+</head>
+<body>
+<h2 th:text="${warning}"></h2>
+<form th:action="@{/cart/confirmReplace}" method="post">
+    <input type="hidden" name="username" th:value="${username}">
+    <input type="hidden" name="productId" th:value="${productId}">
+    <button type="submit">Replace Items</button>
+</form>
+<a th:href="@{/listProductUser}">Cancel</a>
+</body>
+</html>
