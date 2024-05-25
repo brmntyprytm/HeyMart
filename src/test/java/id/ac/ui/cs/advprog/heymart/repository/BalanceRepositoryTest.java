@@ -4,16 +4,31 @@ import org.junit.jupiter.api.Test;
 
 import id.ac.ui.cs.advprog.heymart.model.Balance;
 import id.ac.ui.cs.advprog.heymart.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+@SpringBootTest
 public class BalanceRepositoryTest {
 
     @BeforeEach
     void setUp() {
     }
-    
+
+    BalanceRepository balanceRepository;
+
+
+    @Test
+    void TestIncrementUserBalance(){
+        User user = new User(727L, "user", "pass", "test@gmail.com", "user");
+        user.setBalance(0.0);
+        balanceRepository.incrementUserBalance("user", 2.0);
+        assertEquals(2.0, user.getBalance());
+
+    }
+
 //    @Test
 //    void findBalanceById() {
 //        BalanceRepository balanceRepository = new BalanceRepository();

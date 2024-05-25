@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.heymart.service;
 
 import id.ac.ui.cs.advprog.heymart.model.Product;
+import id.ac.ui.cs.advprog.heymart.model.Supermarket;
 import id.ac.ui.cs.advprog.heymart.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class ProductService {
 
     public synchronized Product createProduct(Product product) {
         // Save the product to the database using the repository
+        if (product.getSupermarket() == null) {
+            Supermarket defaultSupermarket = Supermarket.getDefault();
+            product.setSupermarket(defaultSupermarket);
+        }
         return productRepository.save(product);
     }
 

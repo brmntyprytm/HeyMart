@@ -43,13 +43,6 @@ public class User {
         this.balance = 0.0;
     }
 
-//    public User(Long id, String username, String password, String email, String role, Double balance) {
-//        this(id,username,password,email,role);
-//        this.balance = balance;
-//
-//
-//    }
-
     @Override
     public String toString() {
         return "User{" +

@@ -15,6 +15,13 @@
     <input type="text" id="productName" placeholder="Product Name" class="mb-2 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
     <input type="text" id="productPrice" placeholder="Product Price (e.g., 123,000,000)" class="mb-2 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
     <input type="text" id="productQuantity" placeholder="Product Quantity (e.g., 123,456,000)" class="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
+    <label for="supermarket">Supermarket:</label>
+    <select id="supermarket" required>
+        <!-- Assuming you populate these options dynamically -->
+        <option value="1">Supermarket 1</option>
+        <option value="2">Supermarket 2</option>
+        <!-- Add more options as needed -->
+    </select>
 
     <!-- Add Item button -->
     <button id="addItemBtn" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Item</button>
@@ -95,9 +102,10 @@
         var productName = document.getElementById("productName").value;
         var productPrice = parseInt(document.getElementById("productPrice").value.replace(/\D/g, ''));
         var productQuantity = parseInt(document.getElementById("productQuantity").value.replace(/\D/g, ''));
+        var supermarketId = document.getElementById("supermarket").value;
 
         // Check if inputs are valid
-        if (!productName || isNaN(productPrice) || isNaN(productQuantity)) {
+        if (!productName || isNaN(productPrice) || isNaN(productQuantity) || !supermarketId) {
             alert("Please fill in all fields with valid data.");
             return;
         }
@@ -106,7 +114,10 @@
         var product = {
             name: productName,
             price: productPrice,
-            quantity: productQuantity
+            quantity: productQuantity,
+            supermarket: {
+                id: supermarketId
+            }
         };
 
         // Send a POST request to the backend endpoint to add the product

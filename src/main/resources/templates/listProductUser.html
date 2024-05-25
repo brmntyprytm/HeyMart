@@ -10,11 +10,13 @@
 <body class="bg-gray-900 text-white font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
 <div class="text-center">
     <h1 class="text-6xl mb-6 font-extrabold">Welcome to HeyMart 👋</h1>
-    <h2 class="text-3xl" th:text="'Hello, ' + ${username} + '! Your role is: ' + ${role}">Hello, username! role</h2>
+    <h2 class="text-3xl" th:text="'Hello, ' + ${username} + '! Your role is: ' + ${role}"></h2>
     <h1 class="text-3xl mb-6 font-extrabold">You're the user</h1>
 
-    <!-- Button to redirect to shopping cart -->
     <a href="/shoppingCart" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4">View Shopping Cart</a>
+
+    <h2 class="text-3xl" th:text="'Your balance is: ' + ${balance}"></h2>
+    <a href="/userbalance" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4">View Your Balance</a>
 
     <form action="/logout" method="post">
         <button type="submit" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</button>
@@ -24,6 +26,7 @@
     <table class="border-collapse border border-gray-600 mx-auto my-8">
         <thead>
         <tr>
+            <th class="border border-gray-600 px-4 py-2">Supermarket</th>
             <th class="border border-gray-600 px-4 py-2">Product Name</th>
             <th class="border border-gray-600 px-4 py-2">Product Price</th>
             <th class="border border-gray-600 px-4 py-2">Product Quantity</th>
@@ -33,6 +36,7 @@
         <tbody>
         <!-- Iterate over the products list and display each product -->
         <tr th:each="product : ${products}">
+            <td class="border border-gray-600 px-4 py-2" th:text="${product.supermarket.getName()}"></td>
             <td class="border border-gray-600 px-4 py-2" th:text="${product.name}"></td>
             <td class="border border-gray-600 px-4 py-2" th:text="${product.price}"></td>
             <td class="border border-gray-600 px-4 py-2" th:text="${product.quantity}"></td>
