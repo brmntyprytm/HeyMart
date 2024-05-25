@@ -50,4 +50,32 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCartRepository.save(shoppingCart);
         return true;
     }
+
+    @Override
+    public boolean checkout(String username, String productId) {
+        User user = userRepository.findByUsername(username);
+        Product product = productRepository
+                .findById(productId)
+                .orElse(null);
+
+        if (user == null || product == null) {
+            return false; // User or product not found
+        }
+
+        ShoppingCart shoppingCart = user.getShoppingCart();
+
+        if (user.getBalance() > product.getPrice()) {
+            shoppingCart.removeProduct(product);
+            user.setBalance(user.getBalance() - product.getPrice());
+            userRepository.save(user);
+
+            Integer newQuantity = product.getQuantity() - 1;
+            product.setQuantity(newQuantity);
+            productRepository.save(product);
+            return true;
+
+        } else {
+            return false; // Insufficient balance
+        }
+    }
 }

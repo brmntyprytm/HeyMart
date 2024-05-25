@@ -31,4 +31,14 @@ public class ShoppingCartController {
             return new RedirectView("/shoppingCart");
         }
     }
+
+    @PostMapping("/checkout")
+    public RedirectView checkout(@RequestParam String username, @RequestParam String productId) {
+        boolean checkedOut = shoppingCartService.checkout(username, productId);
+        if (checkedOut) {
+            return new RedirectView("/shoppingCart");
+        } else {
+            return new RedirectView("/shoppingCart");
+        }
+    }
 }

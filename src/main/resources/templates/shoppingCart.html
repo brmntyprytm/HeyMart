@@ -23,6 +23,7 @@
             <th class="border border-gray-600 px-4 py-2">Product Price</th>
             <th class="border border-gray-600 px-4 py-2">Product Quantity</th>
             <th class="border border-gray-600 px-4 py-2">Remove</th>
+            <th class="border border-gray-600 px-4 py-2">Checkout</th>
         </tr>
         </thead>
         <tbody>
@@ -38,6 +39,12 @@
                     <button type="submit">Remove</button>
                 </form>
             </td>
+            <td class="border border-gray-600 px-4 py-2">
+                <form th:action="@{/cart/checkout}" method="post">
+                    <input type="hidden" name="username" th:value="${username}" />
+                    <input type="hidden" name="productId" th:value="${product.id}" />
+                    <button type="submit">Checkout</button>
+                </form>
         </tr>
         </tbody>
     </table>
