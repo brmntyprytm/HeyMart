@@ -31,6 +31,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
 
         ShoppingCart shoppingCart = user.getShoppingCart();
+        if (!shoppingCart.isFromSameSupermarket(product)) {
+            return false; // Product is from a different supermarket
+        }
+
         shoppingCart.addProduct(product);
         shoppingCartRepository.save(shoppingCart);
         return true;
