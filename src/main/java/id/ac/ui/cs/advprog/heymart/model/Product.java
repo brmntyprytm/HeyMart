@@ -19,6 +19,10 @@ public class Product {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
+    @ManyToOne
+    @JoinColumn(name = "supermarket_id", nullable = false)
+    private Supermarket supermarket;
+
     // Constructors
 
     public Product() {
@@ -64,6 +68,10 @@ public class Product {
         this.quantity = quantity;
     }
 
+    public Supermarket getSupermarket() {
+        return supermarket != null ? supermarket : Supermarket.getDefault();
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -72,5 +80,9 @@ public class Product {
                 ", price=" + price +
                 ", quantity=" + quantity +
                 '}';
+    }
+
+    public void setSupermarket(Supermarket supermarket) {
+        this.supermarket = supermarket;
     }
 }
