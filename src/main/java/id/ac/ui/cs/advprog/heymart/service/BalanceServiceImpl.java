@@ -11,29 +11,20 @@ public class BalanceServiceImpl implements BalanceService{
     private BalanceRepository balanceRepository;
 
     @Override
-    public Balance add(Balance balance) {
-        balanceRepository.add(balance);
-        return balance;
-    }
-
-    @Override
-    public Balance findById(Long id){
-        return balanceRepository.findById(id);
-    }
-    @Override
     public double topUp(String username, double amount) {
         System.out.println("Service topup executed");
-        return balanceRepository.incrementBalance(username, amount);
+        return balanceRepository.incrementUserBalance(username, amount);
     }
 
     @Override
     public double withdraw(Long id, double amount) {
-        return balanceRepository.decrementBalance(id, amount);
+        return balanceRepository.decrementShopBalance(id, amount);
     }
 
     @Override
-    public boolean checkoutUpdate() {
-        // TODO: Add update balance logic after checkout
-        return false;
+    public boolean checkoutUpdate(String username, Long shopId, double amount) {
+        balanceRepository.incrementShopBalance(shopId, amount);
+        balanceRepository.decrementUserBalance(username,amount);
+        return true;
     }
 }

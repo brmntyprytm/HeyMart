@@ -1,4 +1,5 @@
 package id.ac.ui.cs.advprog.heymart.service;
+import id.ac.ui.cs.advprog.heymart.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,8 +16,19 @@ import static org.mockito.Mockito.*;
 public class BalanceServiceImplTest {
     
         @Mock
-        private BalanceRepository balanceRepository;
+        private UserRepository userRepository;
 
         @InjectMocks
-        private BalanceServiceImpl balanceService;
+        private UserServiceImpl userService;
+
+        @BeforeEach
+        public void setUp() {
+                MockitoAnnotations.openMocks(this);
+        }
+
+        @Test
+        void TestIncrementUserBalance() {
+        }
+
+
 }

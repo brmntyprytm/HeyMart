@@ -18,6 +18,8 @@ public class Supermarket {
 
     private String location;
 
+    private Double balance;
+
     public Supermarket() {}
 
     public Supermarket(Long id, String name, String location) {

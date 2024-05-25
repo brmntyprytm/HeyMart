@@ -1,13 +1,13 @@
 <table>
     <tr>
-    <td>Your balance:</td>
-    <td th:text="${user.balance}"></td>
+        <td>Shop balance:</td>
+        <td th:text="${supermarket.balance}"></td>
     </tr>
-    <form th:action="@{/userbalance/topup}" th:object="${user}" method="post">
+    <form th:action="@{/shopbalance/withdraw/{id}(id=${supermarket.id})}" th:object="${supermarket}" method="post">
         <div class="form-group">
             <label for="balanceInput">Amount</label>
             <input th:field="*{balance}" type="text" class="form-control mb-4 col-4" id="balanceInput" placeholder="Enter amount">
         </div>
-        <button type="submit" class="btn btn-primary">Increment</button>
+        <button type="submit" class="btn btn-primary">Withdraw</button>
     </form>
 </table>

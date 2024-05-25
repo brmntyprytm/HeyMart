@@ -1,4 +1,5 @@
 package id.ac.ui.cs.advprog.heymart.repository;
+import id.ac.ui.cs.advprog.heymart.model.Supermarket;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -7,55 +8,65 @@ import id.ac.ui.cs.advprog.heymart.model.User;
 import id.ac.ui.cs.advprog.heymart.model.Balance;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Repository
 public class BalanceRepository {
-    private List<Balance> balances = new ArrayList<>();
 
     @Autowired
     private UserRepository userRepository;
 
-    public void add(Balance balance) {
-        balances.add(balance);
-    }
-
-    public Balance findById(Long Id) {
-        for (Balance b : balances) {
-            if (b.getId().equals(Id)) {
-                return b;
-            }
-        }
-        return null;
-    }
+    @Autowired
+    private SupermarketRepository supermarketRepository;
 
     @Transactional
-    public double incrementBalance(String username, double amount) {
-//        for (Balance b: balances) {
-//            if (b.getId().equals(id)) {
-//                b.setBalance(b.getBalance() + amount);
-//                return b.getBalance();
-//            }
-//        }
+    public double incrementUserBalance(String username, double amount) {
         User user = userRepository.findByUsername(username);
         double balanceLog = user.getBalance();
         System.out.println(balanceLog);
         user.setBalance(user.getBalance() + amount);
         double balanceLog2 = user.getBalance();
         System.out.println(balanceLog2);
-        System.out.println("repository incrementBalance executed");
+        System.out.println("repository incrementUserBalance executed");
         return -1;
     }
 
-    public double decrementBalance(Long id, double amount) {
-        for (Balance b: balances) {
-            if (b.getId().equals(id)) {
-                if (b.getBalance() - amount >= 0) {
-                    b.setBalance(b.getBalance() - amount);
-                    return b.getBalance();
-                }
-                return -2;
-            }
-        }
+    @Transactional
+    public double decrementUserBalance(String username, double amount) {
+        User user = userRepository.findByUsername(username);
+        double balanceLog = user.getBalance();
+        System.out.println(balanceLog);
+        user.setBalance(user.getBalance() - amount);
+        double balanceLog2 = user.getBalance();
+        System.out.println(balanceLog2);
+        System.out.println("repository decrementUserBalance executed");
         return -1;
     }
+
+    @Transactional
+    public double incrementShopBalance(Long id, double amount) {
+        Supermarket supermarket = supermarketRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Supermarket not found with id: " + id));
+        double balanceLog = supermarket.getBalance();
+        System.out.println(balanceLog);
+        supermarket.setBalance(supermarket.getBalance() + amount);
+        double balanceLog2 = supermarket.getBalance();
+        System.out.println(balanceLog2);
+        System.out.println("repository incrementShopBalance executed");
+        return -1;
+    }
+
+    @Transactional
+    public double decrementShopBalance(Long id, double amount) {
+        Supermarket supermarket = supermarketRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Supermarket not found with id: " + id));
+        double balanceLog = supermarket.getBalance();
+        System.out.println(balanceLog);
+        supermarket.setBalance(supermarket.getBalance() - amount);
+        double balanceLog2 = supermarket.getBalance();
+        System.out.println(balanceLog2);
+        System.out.println("repository decrementShopBalance executed");
+        return -1;
+    }
+
 }
