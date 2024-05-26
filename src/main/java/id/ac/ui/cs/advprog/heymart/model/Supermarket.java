@@ -23,10 +23,15 @@ public class Supermarket {
     @Column(name = "location", nullable = false)
     private String location;
 
+    @Column(name = "balance", nullable = false, columnDefinition = "double default 0")
     private Double balance;
 
     @OneToMany(mappedBy = "supermarket", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "manager_id", referencedColumnName = "id")
+    private User manager;
 
     public Supermarket() {}
 

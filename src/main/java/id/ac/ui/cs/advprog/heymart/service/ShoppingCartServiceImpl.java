@@ -55,31 +55,48 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return true;
     }
 
-    @Override
-    public boolean checkout(String username, String productId) {
+    public boolean checkout(String username) {
         User user = userRepository.findByUsername(username);
-        Product product = productRepository
-                .findById(productId)
-                .orElse(null);
-
-        if (user == null || product == null) {
-            return false; // User or product not found
-        }
-
         ShoppingCart shoppingCart = user.getShoppingCart();
 
-        if (user.getBalance() > product.getPrice()) {
-            shoppingCart.removeProduct(product);
-            user.setBalance(user.getBalance() - product.getPrice());
+        if (user == null || shoppingCart == null) {
+            return false; // User or shopping cart not found
+        }
+
+        double totalCost = shoppingCart.getProducts().stream()
+                .mapToDouble(Product::getPrice)
+                .sum();
+
+        if (user.getBalance() >= totalCost) {
+            for (Product product : shoppingCart.getProducts()) {
+                // Update user's balance
+                user.setBalance(user.getBalance() - product.getPrice());
+
+                // Decrement all product in shopping cart quantity
+                product.setQuantity(product.getQuantity() - 1);
+                productRepository.save(product);
+            }
+            // Clear the shopping cart
+            shoppingCart.getProducts().clear();
+
+            // Save the updated user and shopping cart
             userRepository.save(user);
-
-            Integer newQuantity = product.getQuantity() - 1;
-            product.setQuantity(newQuantity);
-            productRepository.save(product);
             return true;
-
         } else {
             return false; // Insufficient balance
         }
+    }
+
+    public Double getTotalCost(String username) {
+        User user = userRepository.findByUsername(username);
+        ShoppingCart shoppingCart = user.getShoppingCart();
+
+        if (user == null || shoppingCart == null) {
+            return null; // User or shopping cart not found
+        }
+
+        return shoppingCart.getProducts().stream()
+                .mapToDouble(Product::getPrice)
+                .sum();
     }
 }

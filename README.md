@@ -26,22 +26,22 @@ HeyMart has been successfully deployed using Koyeb. You can access the website [
    - Styling
      -  [x] Set Up Tailwind CSS
      -  [x] Styled Landing, Login and Register Page
-   - Authentication (🧑‍)
+   - Authentication (🧑‍/💻/🍎)
       - [x] Users can register
       - [x] Users can login
       - [x] Users can logout
 
    - Manage Shopping Cart (🧑‍)
-      - [ ] Buyers can view the Shopping Cart
-      - [ ] Buyers can add products to the Shopping Cart. The Shopping Cart can only contain products in one Supermarket. If the buyer adds products from a different Supermarket, display a notification to delete the products in the previous Shopping Cart.
-      - [ ] Buyers can check-out the Shopping Cart and make payment.
+      - [x] Buyers can view the Shopping Cart
+      - [x] Buyers can add products to the Shopping Cart. The Shopping Cart can only contain products in one Supermarket. If the buyer adds products from a different Supermarket, display a notification to delete the products in the previous Shopping Cart.
+      - [x] Buyers can check-out the Shopping Cart and make payment.
 
 3. `PascalPahlevi` - Pascal Pahlevi / 2206046752
 
    Responsible for: Manage Supermarkets (💻)
-   - [ ] Admin can register supermarkets
-   - [ ] Users can view supermarkets
-   - [ ] Admin can change and delete supermarkets
+   - [x] Admin can register supermarkets
+   - [x] Users can view supermarkets
+   - [x] Admin can change and delete supermarkets
 
 4. `EzarY7` - Ezar Yudha / 2206046746
 
