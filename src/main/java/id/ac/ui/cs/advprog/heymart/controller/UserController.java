@@ -1,9 +1,11 @@
 package id.ac.ui.cs.advprog.heymart.controller;
 
 import id.ac.ui.cs.advprog.heymart.model.Product;
+import id.ac.ui.cs.advprog.heymart.model.Supermarket;
 import id.ac.ui.cs.advprog.heymart.model.User;
 import id.ac.ui.cs.advprog.heymart.repository.UserRepository;
 import id.ac.ui.cs.advprog.heymart.service.ShoppingCartService;
+import id.ac.ui.cs.advprog.heymart.service.SupermarketService;
 import id.ac.ui.cs.advprog.heymart.service.UserService;
 import id.ac.ui.cs.advprog.heymart.service.ProductService;
 import id.ac.ui.cs.advprog.heymart.validator.UserValidator;
@@ -40,6 +42,9 @@ public class UserController {
 
     @Autowired
     private ShoppingCartService shoppingCartService;
+
+    @Autowired
+    private SupermarketService supermarketService;
 
     @GetMapping("/")
     public String landingPage() {
@@ -121,13 +126,21 @@ public class UserController {
 
 
     @GetMapping("/managerHome")
-    public String managerPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model, HttpServletRequest request) {
+    public String managerPage(Model model, HttpServletRequest request) {
+        // Retrieve username and role from session
         HttpSession session = request.getSession();
-        username = (String) session.getAttribute("username");
-        role = (String) session.getAttribute("role");
+        String username = (String) session.getAttribute("username");
+        String role = (String) session.getAttribute("role");
 
+        // Get all supermarkets
+        List<Supermarket> supermarkets = supermarketService.getAllSupermarkets();
+
+        // Add username, role, and supermarkets to the model
         model.addAttribute("username", username);
         model.addAttribute("role", role);
+        model.addAttribute("supermarkets", supermarkets);
+
+        // Return the view name
         return "managerHome";
     }
 
