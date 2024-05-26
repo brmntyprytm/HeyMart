@@ -56,4 +56,14 @@ public class UserServiceImplTest {
 
         verify(userRepository, times(1)).findByUsername("test_user");
     }
+
+    @Test
+    public void testAuthenticate_InvalidCredentials() {
+        when(userRepository.findByUsername("unknown_user")).thenReturn(null);
+
+        assertNull(userService.authenticate("unknown_user", "invalid_password"));
+
+        verify(userRepository, times(1)).findByUsername("unknown_user");
+    }
+
 }

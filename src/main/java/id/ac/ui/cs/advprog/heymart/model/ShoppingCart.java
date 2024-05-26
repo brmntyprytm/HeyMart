@@ -11,6 +11,8 @@ import java.util.List;
 @Table(name = "shopping_carts")
 public class ShoppingCart {
 
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
