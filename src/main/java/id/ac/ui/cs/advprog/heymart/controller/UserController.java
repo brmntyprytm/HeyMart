@@ -3,6 +3,7 @@ package id.ac.ui.cs.advprog.heymart.controller;
 import id.ac.ui.cs.advprog.heymart.model.Product;
 import id.ac.ui.cs.advprog.heymart.model.User;
 import id.ac.ui.cs.advprog.heymart.repository.UserRepository;
+import id.ac.ui.cs.advprog.heymart.service.ShoppingCartService;
 import id.ac.ui.cs.advprog.heymart.service.UserService;
 import id.ac.ui.cs.advprog.heymart.service.ProductService;
 import id.ac.ui.cs.advprog.heymart.validator.UserValidator;
@@ -36,6 +37,9 @@ public class UserController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ShoppingCartService shoppingCartService;
 
     @GetMapping("/")
     public String landingPage() {
@@ -182,8 +186,11 @@ public class UserController {
         username = (String) session.getAttribute("username");
         role = (String) session.getAttribute("role");
 
+        Double totalCost = shoppingCartService.getTotalCost(username);
+
         model.addAttribute("username", username);
         model.addAttribute("role", role);
+        model.addAttribute("totalCost", totalCost);
 
         User user = userRepository.findByUsername(username);
         model.addAttribute("products", user.getShoppingCart().getProducts()); // Get the list of products from the shopping cart

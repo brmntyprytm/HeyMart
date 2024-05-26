@@ -86,4 +86,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             return false; // Insufficient balance
         }
     }
+
+    public Double getTotalCost(String username) {
+        User user = userRepository.findByUsername(username);
+        ShoppingCart shoppingCart = user.getShoppingCart();
+
+        if (user == null || shoppingCart == null) {
+            return null; // User or shopping cart not found
+        }
+
+        return shoppingCart.getProducts().stream()
+                .mapToDouble(Product::getPrice)
+                .sum();
+    }
 }

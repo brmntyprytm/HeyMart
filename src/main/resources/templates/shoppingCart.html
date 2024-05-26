@@ -47,6 +47,8 @@
         </tbody>
     </table>
     <div>
+        <h2 class="text-3xl" th:text="'Total Price: ' + ${totalCost}">Total Price: 0</h2>
+    <div>
         <form th:action="@{/cart/checkout}" method="post">
             <input type="hidden" name="username" th:value="${username}" />
             <button type="submit">Checkout</button>

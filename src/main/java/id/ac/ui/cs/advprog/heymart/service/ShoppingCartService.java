@@ -6,4 +6,6 @@ public interface ShoppingCartService {
     boolean removeFromCart(String username, String productId);
 
     boolean checkout(String username);
+
+    Double getTotalCost(String username);
 }
