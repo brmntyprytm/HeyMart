@@ -43,16 +43,12 @@
             <td class="border border-gray-600 px-4 py-2 rounded" th:text="${product.price}"></td>
             <td class="border border-gray-600 px-4 py-2 rounded" th:text="${product.quantity}"></td>
             <!-- Buttons for delete and edit actions -->
-            <!-- Buttons for delete and edit actions -->
             <td class="border border-gray-600 px-4 py-2">
                 <button class="delete-product bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-15 focus:outline-none focus:shadow-outline" th:data-product-id="${product.id}" onclick="handleDelete(this.getAttribute('data-product-id'))">Delete</button>
                 <a th:href="@{/edit-product/{productId}(productId=${product.id})}" class="btn btn-primary bg-orange-500 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-15 focus:outline-none focus:shadow-outline" data-toggle="modal" data-target="#editProductModal${product.id}">
                     Edit Product
                 </a>
-
-
             </td>
-
         </tr>
         </tbody>
     </table>

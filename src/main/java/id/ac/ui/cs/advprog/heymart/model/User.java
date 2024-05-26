@@ -26,6 +26,12 @@ public class User {
     @Column(nullable = false)
     private String role;
 
+    @Column(nullable = true)
+    private Double balance;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ShoppingCart shoppingCart;
+
     public User() {}
 
     public User(Long id, String username, String password, String email, String role) {
@@ -34,7 +40,15 @@ public class User {
         this.password = password;
         this.email = email;
         this.role = role;
+        this.balance = 0.0;
     }
+
+//    public User(Long id, String username, String password, String email, String role, Double balance) {
+//        this(id,username,password,email,role);
+//        this.balance = balance;
+//
+//
+//    }
 
     @Override
     public String toString() {
@@ -44,6 +58,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
+                ", balance='" + balance + '\'' +
                 '}';
     }
 }

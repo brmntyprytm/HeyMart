@@ -1,0 +1,13 @@
+<table>
+    <tr>
+    <td>Your balance:</td>
+    <td th:text="${user.balance}"></td>
+    </tr>
+    <form th:action="@{/userbalance/topup/{username}(username=${user.username})}" th:object="${user}" method="post">
+        <div class="form-group">
+            <label for="balanceInput">Amount</label>
+            <input th:field="*{balance}" type="text" class="form-control mb-4 col-4" id="balanceInput" placeholder="Enter amount">
+        </div>
+        <button type="submit" class="btn btn-primary">Increment</button>
+    </form>
+</table>

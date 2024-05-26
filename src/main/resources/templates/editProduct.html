@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/output.css" rel="stylesheet">
     <title>Edit Product</title>
+<<<<<<< HEAD
     <link href="/output.css" rel="stylesheet">
     <style>
         .save-button {
@@ -109,6 +111,8 @@
             animation-delay: 3.5s;
         }
     </style>
+=======
+>>>>>>> 017d1d4599b04724eebd29818055172914c4dcc5
 </head>
 <body class="bg-gray-900 text-white font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
 <div class="max-w-md bg-white rounded-lg shadow-md p-8 text-center animated fade-in animated-delay-1">
@@ -156,7 +160,11 @@
             contentType: 'application/json',
             data: JSON.stringify(updatedProductData),
             success: function(updatedProduct) {
+<<<<<<< HEAD
                 window.location.replace("/listProduct");
+=======
+                window.location.replace("/listProductManager")
+>>>>>>> 017d1d4599b04724eebd29818055172914c4dcc5
             },
             error: function(xhr, status, error) {
                 // Handle error (optional)
