@@ -29,6 +29,10 @@ public class Supermarket {
     @OneToMany(mappedBy = "supermarket", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "manager_id", referencedColumnName = "id")
+    private User manager;
+
     public Supermarket() {}
 
     public Supermarket(Long id, String name, String location) {

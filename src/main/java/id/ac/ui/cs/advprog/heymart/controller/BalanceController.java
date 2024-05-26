@@ -63,25 +63,61 @@ public class BalanceController {
         return "redirect:/userbalance/topup";
     }
 
-    @GetMapping("shopbalance/{shopId}")
-    public String shopBalancePage(@PathVariable(name= "shopId") Long shopId, Model model) {
-        Supermarket supermarket = supermarketRepository.findById(shopId)
-                .orElseThrow(() -> new RuntimeException("Supermarket not found with id: " + shopId));
-        model.addAttribute("supermarket", supermarket);
-        return "shopbalance";
+    @GetMapping("/shopbalance")
+    public String shopBalancePage(@ModelAttribute(name = "username") String username, @ModelAttribute(name = "role") String role, @ModelAttribute User user, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        username = (String) session.getAttribute("username");
+        role = (String) session.getAttribute("role");
+
+        if (role.equals("manager")) {
+            User user1 = userRepository.findByUsername(username);
+            Long shopId = supermarketRepository.selectSupermarketIdByManager(user1.getId());
+            Supermarket supermarket = supermarketRepository.findById(shopId)
+                    .orElseThrow(() -> new RuntimeException("Supermarket not found with id: " + shopId));
+            model.addAttribute("supermarket", supermarket);
+            return "shopbalance";
+
+        } else if (role.equals("admin")) {
+            return "redirect:adminHome";
+        }
+
+        else{
+            return "redirect:listProductUser";
+        }
     }
 
-    @GetMapping("shopbalance/withdraw/{shopId}")
-    public String withdrawBalancePage(@PathVariable(name = "shopId") Long shopId, Model model) {
-        Supermarket supermarket = supermarketRepository.findById(shopId)
-                .orElseThrow(() -> new RuntimeException("Supermarket not found with id: " + shopId));
-        model.addAttribute("supermarket", supermarket);
-        return "shopwithdraw";
+    @GetMapping("shopbalance/withdraw")
+    public String withdrawBalancePage(@ModelAttribute(name = "username") String username, @ModelAttribute(name = "role") String role, @ModelAttribute User user, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        username = (String) session.getAttribute("username");
+        role = (String) session.getAttribute("role");
+
+        if (role.equals("manager")) {
+            User user1 = userRepository.findByUsername(username);
+            Long shopId = supermarketRepository.selectSupermarketIdByManager(user1.getId());
+            Supermarket supermarket = supermarketRepository.findById(shopId)
+                    .orElseThrow(() -> new RuntimeException("Supermarket not found with id: " + shopId));
+            model.addAttribute("supermarket", supermarket);
+            return "shopwithdraw";
+
+        } else if (role.equals("admin")) {
+            return "redirect:adminHome";
+        }
+
+        else{
+            return "redirect:listProductUser";
+        }
     }
 
-    @PostMapping("shopbalance/withdraw/{shopId}")
-    public String withdrawBalance(@PathVariable(name  = "shopId") Long shopId, @ModelAttribute Supermarket supermarket, Model model) {
+    @PostMapping("shopbalance/withdraw")
+    public String withdrawBalance(@ModelAttribute(name = "username") String username, @ModelAttribute( name = "role") String role, @ModelAttribute Supermarket supermarket, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        username = (String) session.getAttribute("username");
+        role = (String) session.getAttribute("role");
+
+        User user1 = userRepository.findByUsername(username);
+        Long shopId = supermarketRepository.selectSupermarketIdByManager(user1.getId());
         balanceService.withdraw(shopId, supermarket.getBalance());
-        return "redirect:/shopbalance/withdraw/{shopId}";
+        return "redirect:/shopbalance/withdraw";
     }
 }
