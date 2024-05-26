@@ -1,13 +1,104 @@
-<table>
-    <tr>
-    <td>Your balance:</td>
-    <td th:text="${user.balance}"></td>
-    </tr>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+    <title>Balance Information</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #1a202c;
+            padding: 20px;
+            padding-top: 150px;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            padding: 20px;
+            background-color: #1a202c;
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+            border: 1px solid #4a5568;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            background-color: #2d3748;
+            color: white;
+            border: 1px solid #4a5568;
+            border-radius: 5px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: #3182ce;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #2b6cb0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Balance Information</h2>
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+    </div>
+    <table>
+        <tr>
+            <td>Your balance:</td>
+            <td th:text="${user.balance}"></td>
+        </tr>
+    </table>
     <form th:action="@{/userbalance/topup}" th:object="${user}" method="post">
         <div class="form-group">
             <label for="balanceInput">Amount</label>
-            <input th:field="*{balance}" type="text" class="form-control mb-4 col-4" id="balanceInput" placeholder="Enter amount">
+            <input th:field="*{balance}" type="text" class="form-control mb-4" id="balanceInput" placeholder="Enter amount">
         </div>
-        <button type="submit" class="btn btn-primary">Increment</button>
+        <button type="submit" class="btn">Increment</button>
     </form>
-</table>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector("form");
+        const balanceInput = document.getElementById("balanceInput");
+
+        form.addEventListener("submit", function(event) {
+            const value = parseFloat(balanceInput.value);
+
+            if (isNaN(value) || value <= 0) {
+                event.preventDefault();
+                alert("Please enter a valid positive number.");
+            }
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
