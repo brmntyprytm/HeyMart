@@ -15,4 +15,8 @@ public interface SupermarketRepository extends JpaRepository<Supermarket, Long> 
     @Transactional
     @Query("DELETE FROM Supermarket s WHERE s.id = :id")
     void deleteSupermarketById(@Param("id")Long id);
+
+    @Transactional
+    @Query("SELECT s.id FROM Supermarket s WHERE s.manager.id = :manager_id")
+    Long selectSupermarketIdByManager(@Param("manager_id") Long manager_id);
 }
