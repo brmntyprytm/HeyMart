@@ -12,7 +12,6 @@ public class BalanceServiceImpl implements BalanceService{
 
     @Override
     public double topUp(String username, double amount) {
-        System.out.println("Service topup executed");
         return balanceRepository.incrementUserBalance(username, amount);
     }
 

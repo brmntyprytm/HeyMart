@@ -14,7 +14,7 @@ import static org.mockito.Mockito.*;
 
 
 public class BalanceServiceImplTest {
-    
+
         @Mock
         private UserRepository userRepository;
 

@@ -54,11 +54,19 @@ public class BalanceController {
     }
 
     @PostMapping("userbalance/topup")
-    public String topUpBalance(@ModelAttribute(name = "username") String username, @ModelAttribute( name = "role") String role, @ModelAttribute User user, Model model, HttpServletRequest request) {
+    public String topUpBalance(@ModelAttribute(name = "username") String username, @ModelAttribute(name = "role") String role, @ModelAttribute User user, Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession();
         username = (String) session.getAttribute("username");
         role = (String) session.getAttribute("role");
-        balanceService.topUp(username, user.getBalance());
+
+        double amount = user.getBalance();
+
+        if (amount <= 0) {
+            redirectAttributes.addFlashAttribute("error", "Please enter a valid positive number.");
+            return "redirect:/userbalance/topup";
+        }
+
+        balanceService.topUp(username, amount);
 
         return "redirect:/userbalance/topup";
     }
@@ -110,14 +118,29 @@ public class BalanceController {
     }
 
     @PostMapping("shopbalance/withdraw")
-    public String withdrawBalance(@ModelAttribute(name = "username") String username, @ModelAttribute( name = "role") String role, @ModelAttribute Supermarket supermarket, Model model, HttpServletRequest request) {
+    public String withdrawBalance(@ModelAttribute(name = "username") String username, @ModelAttribute(name = "role") String role, @ModelAttribute Supermarket supermarket, Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession();
         username = (String) session.getAttribute("username");
         role = (String) session.getAttribute("role");
 
         User user1 = userRepository.findByUsername(username);
         Long shopId = supermarketRepository.selectSupermarketIdByManager(user1.getId());
-        balanceService.withdraw(shopId, supermarket.getBalance());
+
+        double amount = supermarket.getBalance();
+        Supermarket currentSupermarket = supermarketRepository.findById(shopId)
+                .orElseThrow(() -> new RuntimeException("Supermarket not found with id: " + shopId));
+        double currentBalance = currentSupermarket.getBalance();
+
+        if (amount <= 0) {
+            redirectAttributes.addFlashAttribute("error", "Please enter a valid positive number.");
+            return "redirect:/shopbalance/withdraw";
+        } else if (currentBalance - amount < 0) {
+            redirectAttributes.addFlashAttribute("error", "Withdrawal amount exceeds the current balance.");
+            return "redirect:/shopbalance/withdraw";
+        }
+
+        balanceService.withdraw(shopId, amount);
         return "redirect:/shopbalance/withdraw";
     }
+
 }
