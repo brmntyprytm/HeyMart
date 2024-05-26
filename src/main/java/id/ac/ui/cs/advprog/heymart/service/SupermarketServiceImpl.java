@@ -2,10 +2,12 @@ package id.ac.ui.cs.advprog.heymart.service;
 
 import id.ac.ui.cs.advprog.heymart.model.Supermarket;
 import id.ac.ui.cs.advprog.heymart.repository.SupermarketRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SupermarketServiceImpl implements SupermarketService {
@@ -24,6 +26,10 @@ public class SupermarketServiceImpl implements SupermarketService {
 
     @Override
     public void addSupermarket(Supermarket supermarket) {
+        Long id = supermarket.getId();
+        if (id != null && supermarketRepository.existsById(id)) {
+            supermarket.setId(null);
+        }
         supermarketRepository.save(supermarket);
     }
 
@@ -36,7 +42,14 @@ public class SupermarketServiceImpl implements SupermarketService {
     }
 
     @Override
+    public Supermarket getSupermarketByID(Long id) {
+        Optional<Supermarket> optionalSupermarket = supermarketRepository.findById(id);
+        return optionalSupermarket.orElse(null);
+    }
+
+    @Override
+    @Transactional
     public void deleteSupermarket(Long id) {
-        supermarketRepository.deleteById(id);
+        supermarketRepository.deleteSupermarketById(id);
     }
 }
