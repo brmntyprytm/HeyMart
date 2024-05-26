@@ -1,0 +1,36 @@
+name: Merge upstream branches
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # This runs every 5 minutes
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'Bramantyo Priyo Utomo'
+          git config --global user.email 'bramantyo.priyo@ui.ac.id'
+
+      - name: Add upstream repository
+        run: |
+          git remote add upstream https://github.com/pejuangadpro/HeyMart.git
+          git fetch upstream
+
+      - name: Merge upstream/main into main
+        run: |
+          git checkout main
+          git merge --no-edit upstream/main
+
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push origin main
