@@ -1,7 +1,9 @@
 package id.ac.ui.cs.advprog.heymart.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "products")
 public class Product {

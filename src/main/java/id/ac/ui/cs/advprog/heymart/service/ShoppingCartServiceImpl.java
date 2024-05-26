@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.heymart.service;
 
+import id.ac.ui.cs.advprog.heymart.repository.SupermarketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import id.ac.ui.cs.advprog.heymart.model.Product;
@@ -20,6 +21,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
+
+    @Autowired
+    private SupermarketRepository supermarketRepository;
 
     @Override
     public boolean addToCart(String username, String productId) {
@@ -58,7 +62,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public boolean checkout(String username) {
         User user = userRepository.findByUsername(username);
         ShoppingCart shoppingCart = user.getShoppingCart();
-
         if (user == null || shoppingCart == null) {
             return false; // User or shopping cart not found
         }
@@ -71,6 +74,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             for (Product product : shoppingCart.getProducts()) {
                 // Update user's balance
                 user.setBalance(user.getBalance() - product.getPrice());
+                product.getSupermarket().setBalance(product.getSupermarket().getBalance() + product.getPrice());
 
                 // Decrement all product in shopping cart quantity
                 product.setQuantity(product.getQuantity() - 1);
