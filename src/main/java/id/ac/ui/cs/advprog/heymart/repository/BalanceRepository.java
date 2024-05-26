@@ -22,24 +22,14 @@ public class BalanceRepository {
     @Transactional
     public double incrementUserBalance(String username, double amount) {
         User user = userRepository.findByUsername(username);
-        double balanceLog = user.getBalance();
-        System.out.println(balanceLog);
         user.setBalance(user.getBalance() + amount);
-        double balanceLog2 = user.getBalance();
-        System.out.println(balanceLog2);
-        System.out.println("repository incrementUserBalance executed");
         return -1;
     }
 
     @Transactional
     public double decrementUserBalance(String username, double amount) {
         User user = userRepository.findByUsername(username);
-        double balanceLog = user.getBalance();
-        System.out.println(balanceLog);
         user.setBalance(user.getBalance() - amount);
-        double balanceLog2 = user.getBalance();
-        System.out.println(balanceLog2);
-        System.out.println("repository decrementUserBalance executed");
         return -1;
     }
 
@@ -47,12 +37,7 @@ public class BalanceRepository {
     public double incrementShopBalance(Long id, double amount) {
         Supermarket supermarket = supermarketRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Supermarket not found with id: " + id));
-        double balanceLog = supermarket.getBalance();
-        System.out.println(balanceLog);
         supermarket.setBalance(supermarket.getBalance() + amount);
-        double balanceLog2 = supermarket.getBalance();
-        System.out.println(balanceLog2);
-        System.out.println("repository incrementShopBalance executed");
         return -1;
     }
 
@@ -60,12 +45,7 @@ public class BalanceRepository {
     public double decrementShopBalance(Long id, double amount) {
         Supermarket supermarket = supermarketRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Supermarket not found with id: " + id));
-        double balanceLog = supermarket.getBalance();
-        System.out.println(balanceLog);
         supermarket.setBalance(supermarket.getBalance() - amount);
-        double balanceLog2 = supermarket.getBalance();
-        System.out.println(balanceLog2);
-        System.out.println("repository decrementShopBalance executed");
         return -1;
     }
 

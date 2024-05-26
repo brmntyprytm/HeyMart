@@ -1,13 +1,86 @@
-<table>
-    <tr>
-    <td>Your balance:</td>
-    <td th:text="${user.balance}"></td>
-    </tr>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+    <title>Balance Information</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #1a202c; /* Setting the background color to a dark shade */
+            padding: 20px; /* Adding padding to the body */
+            padding-top: 150px; /* Adding padding to the top of the body */
+            color: white; /* Setting text color to white */
+            font-family: 'Arial', sans-serif; /* Ensuring similar font-family */
+        }
+        .container {
+            padding: 20px; /* Adding padding inside the main container */
+            background-color: #1a202c; /* Ensuring the container background matches the body */
+            max-width: 600px; /* Setting a max-width for the container */
+            margin: auto; /* Centering the container */
+            text-align: center; /* Centering the text */
+        }
+        h2 {
+            font-size: 2rem; /* Setting font size for heading */
+            margin-bottom: 20px; /* Adding bottom margin to the heading */
+            font-weight: bold; /* Making the heading bold */
+        }
+        table {
+            width: 100%; /* Setting table width to 100% */
+            margin-bottom: 20px; /* Adding bottom margin to the table */
+            border-collapse: collapse; /* Collapsing table borders */
+        }
+        td {
+            padding: 10px; /* Adding padding to table cells */
+            border: 1px solid #4a5568; /* Adding a border to the table cells */
+        }
+        label {
+            display: block; /* Making label block-level */
+            margin-bottom: 5px; /* Adding bottom margin to the label */
+        }
+        .form-control {
+            width: 100%; /* Setting input width to 100% */
+            padding: 10px; /* Adding padding to input */
+            background-color: #2d3748; /* Setting background color of input */
+            color: white; /* Setting text color of input */
+            border: 1px solid #4a5568; /* Adding border to input */
+            border-radius: 5px; /* Adding border radius to input */
+        }
+        .btn {
+            display: block; /* Making button block-level */
+            width: 100%; /* Setting button width to 100% */
+            background-color: #3182ce; /* Setting button background color */
+            color: white; /* Setting button text color */
+            text-align: center; /* Centering button text */
+            padding: 10px; /* Adding padding to button */
+            margin-top: 10px; /* Adding top margin to button */
+            text-decoration: none; /* Removing underline from button */
+            border-radius: 5px; /* Adding border radius to button */
+            transition: background-color 0.2s; /* Adding transition for background color */
+        }
+        .btn:hover {
+            background-color: #2b6cb0; /* Changing background color on hover */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Balance Information</h2>
+    <table>
+        <tr>
+            <td>Your balance:</td>
+            <td th:text="${user.balance}"></td>
+        </tr>
+    </table>
     <form th:action="@{/userbalance/topup}" th:object="${user}" method="post">
         <div class="form-group">
             <label for="balanceInput">Amount</label>
-            <input th:field="*{balance}" type="text" class="form-control mb-4 col-4" id="balanceInput" placeholder="Enter amount">
+            <input th:field="*{balance}" type="text" class="form-control mb-4" id="balanceInput" placeholder="Enter amount">
         </div>
-        <button type="submit" class="btn btn-primary">Increment</button>
+        <button type="submit" class="btn">Increment</button>
     </form>
-</table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
