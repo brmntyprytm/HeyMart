@@ -39,9 +39,9 @@ HeyMart has been successfully deployed using Koyeb. You can access the website [
 3. `PascalPahlevi` - Pascal Pahlevi / 2206046752
 
    Responsible for: Manage Supermarkets (💻)
-   - [ ] Admin can register supermarkets
-   - [ ] Users can view supermarkets
-   - [ ] Admin can change and delete supermarkets
+   - [x] Admin can register supermarkets
+   - [x] Users can view supermarkets
+   - [x] Admin can change and delete supermarkets
 
 4. `EzarY7` - Ezar Yudha / 2206046746
 

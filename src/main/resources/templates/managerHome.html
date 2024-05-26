@@ -108,15 +108,16 @@
     <input type="text" id="productPrice" placeholder="Product Price (e.g., 123,000,000)" class="mb-2 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500 animated slide-in-left">
     <input type="text" id="productQuantity" placeholder="Product Quantity (e.g., 123,456,000)" class="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500 animated slide-in-left">
 <!--&gt;>>>>>> supermarket-manager-->
-    <label for="supermarket" class="animated slide-in-left">Supermarket:</label>
-    <select id="supermarket" required class="animated slide-in-left">
-        <!-- Assuming you populate these options dynamically -->
-        <option value="1">Supermarket 1</option>
-        <option value="2">Supermarket 2</option>
-        <!-- Add more options as needed -->
-    </select>
+    <div class="container">
+        <label for="supermarket" class="animated slide-in-left font-bold text-lg text-white">Select a Supermarket:</label>
+        <select id="supermarket" required class="animated slide-in-left mt-2 block w-full bg-gray-800 border border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:border-blue-500 text-black">
+            <!-- Iterate over the list of supermarkets and populate the options -->
+            <option value="" disabled selected>Select a Supermarket</option>
+            <option th:each="market : ${supermarkets}" th:value="${market.id}" th:text="${market.name}"></option>
+        </select>
+    </div>
     <!-- Add Item button -->
-    <button id="addItemBtn" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2 save-button">Add Item</button>
+    <button id="addItemBtn" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mb-2 save-button">Add Item</button>
 
     <!-- Logout button -->
     <form action="/logout" method="post" class="logoutBtn mb-2"> <!-- Added custom class -->

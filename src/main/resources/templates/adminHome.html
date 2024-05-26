@@ -12,9 +12,12 @@
     <h2 class="text-3xl" th:text="'Hello, ' + ${username} + '! Your role is: ' + ${role}">Hello, username! role</h2>
     <h1 class="text-3xl mb-6 font-extrabold">You're the admin</h1>
 
-    <a href="/admin/supermarkets" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Manage Supermarkets</a>
+    <div class="flex justify-center gap-4">
+        <a href="/admin/manage" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-2">Manage Supermarkets</a>
+        <a href="/admin/supermarkets" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-2">Register Supermarkets</a>
+    </div>
 
-    <form action="/logout" method="post" style="margin-top: 2rem;"> <!-- Adjusted margin-top inline -->
+    <form action="/logout" method="post" style="margin-top: 2rem;">
         <button type="submit" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</button>
     </form>
 </div>
