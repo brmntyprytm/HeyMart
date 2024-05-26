@@ -30,14 +30,21 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return false;
         }
+
+        // Check if password matches
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            return false; // Password does not match
+        }
+
         if (user.getShoppingCart() == null) {
             ShoppingCart shoppingCart = new ShoppingCart();
             shoppingCart.setUser(user);
+            shoppingCartRepository.save(shoppingCart); // Save the new shopping cart
             user.setShoppingCart(shoppingCart);
+            userRepository.save(user); // Save the user with the associated shopping cart
         }
 
-        return user.getPassword().equals(password);
-
+        return true;
     }
 
     @Transactional
@@ -87,6 +94,10 @@ public class UserServiceImpl implements UserService {
     }
 
     public User authenticate(String username, String password) {
-        return userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        }
+        return null;
     }
 }
