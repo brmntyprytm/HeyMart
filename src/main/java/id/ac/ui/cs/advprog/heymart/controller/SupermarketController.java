@@ -36,6 +36,9 @@ public class SupermarketController {
 
     @PostMapping("/supermarkets")
     public String addSupermarket(@ModelAttribute Supermarket supermarket) {
+        if (supermarket.getBalance() == null) {
+            supermarket.setBalance(0.0);
+        }
         supermarketService.addSupermarket(supermarket);
         return "redirect:/adminHome";
     }
