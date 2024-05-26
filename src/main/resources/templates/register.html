@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./output.css" rel="stylesheet">
+    <link href="/output.css" rel="stylesheet">
     <title>Register</title>
+    <style>
+        body {
+            background-color: #1a202c; /* bg-gray-900 */
+            color: #ffffff; /* text-white */
+        }
+    </style>
 </head>
-<body class="bg-gray-900 font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
+<body class="font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
 <div class="text-center">
     <h2 class="text-7xl text-white font-extrabold mb-6">Register</h2>
     <div class="bg-gray-800 rounded-lg p-6">
@@ -23,6 +29,7 @@
                 <label for="confirmPassword" class="block text-white">Confirm Password:</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" class="block w-full bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:bg-gray-600">
                 <span id="message" class="text-red-500"></span>
+            </div>
             <div class="mb-4">
                 <label for="email" class="block text-white">Email:</label>
                 <input type="text" id="email" name="email" class="block w-full bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:bg-gray-600">
@@ -32,10 +39,6 @@
             </div>
         </form>
     </div>
-</div>
-<div class="fixed bottom-0 left-0 p-4 bg-gray-900 text-white">
-    <h1 class="text-3xl font-extrabold">Bram's Note:</h1>
-    <p>Authentication feature is still in its early stages of development, please do not enter any sensitive information. Thank you for your understanding!</p>
 </div>
 </body>
 </html>
