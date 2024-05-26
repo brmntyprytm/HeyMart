@@ -634,6 +634,126 @@ video {
   border-radius: 0.9375rem; /* 15px in rem */
 }
 
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-180deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0);
+  }
+}
+
+/* Animation Classes */
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fadeIn;
+}
+.logout-form {
+  margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+.slide-in-left {
+  animation-name: slideInLeft;
+}
+
+.slide-in-right {
+  animation-name: slideInRight;
+}
+
+.zoom-in {
+  animation-name: zoomIn;
+}
+
+.rotate-in {
+  animation-name: rotateIn;
+}
+
+/* Delays */
+.animated-delay-1 {
+  animation-delay: 0.5s;
+}
+
+.animated-delay-2 {
+  animation-delay: 1s;
+}
+
+.animated-delay-3 {
+  animation-delay: 1.5s;
+}
+
+.animated-delay-4 {
+  animation-delay: 2s;
+}
+
+/* Pulsate Animation Keyframes */
+@keyframes pulsate {
+  0% {
+    box-shadow: 0 0 15px rgba(0, 128, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 128, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(0, 128, 255, 0);
+  }
+}
+
+/* Pulsate Animation Class */
+.pulsate {
+  animation: pulsate 2s infinite;
+}
+
 
 .bg-blue-500 {
   --tw-bg-opacity: 1;

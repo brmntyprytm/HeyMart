@@ -5,27 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./output.css" rel="stylesheet">
     <title>Greeting</title>
+    <style>
+        /* Add your CSS styles here */
+        .logoutBtn {
+            margin-top: 10px;
+        }
+
+        .logoutBtn {
+            margin-top: 10px;
+        }
+
+        /* Zoom-in Animation Keyframes */
+        @keyframes zoomIn {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Apply zoom-in animation to button hover */
+        .save-button:hover {
+            animation: zoomIn 0.3s alternate infinite;
+        }
+        /* Slide-in-left Animation Keyframes */
+        @keyframes slide-in-left {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Zoom-in Animation Keyframes */
+        @keyframes zoom-in {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Fade-in Animation Keyframes */
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Add animated class with animation duration */
+        .animated {
+            animation-duration: 1s;
+            animation-fill-mode: both;
+        }
+
+        /* Add slide-in-left animation to edit-product-card */
+        .slide-in-left {
+            animation-name: slide-in-left;
+        }
+
+        /* Add zoom-in animation to text-3xl headings */
+        .text-3xl.zoom-in {
+            animation-name: zoom-in;
+        }
+
+        /* Add fade-in animation to popupMessage */
+        #popupMessage.fade-in {
+            animation-name: fade-in;
+        }
+
+    </style>
 </head>
 <body class="bg-gray-900 text-white font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
 <div class="text-center">
-    <h1 class="text-6xl mb-6 font-extrabold" style="color: White;">Welcome to HeyMart 👋</h1>
-    <h2 class="text-3xl" th:text="'Hello, ' + ${username} + '! Your role is: ' + ${role}">Hello, username! role</h2>
-    <h1 class="text-3xl mb-6 font-extrabold">You're the manager</h1>
+    <h1 class="text-6xl mb-6 font-extrabold animated fade-in">Welcome to HeyMart 👋</h1>
+    <h2 class="text-3xl zoom-in" th:text="'Hello, ' + ${username} + '! Your role is: ' + ${role}">Hello, username! role</h2>
+    <h1 class="text-3xl mb-6 font-extrabold animated slide-in-left">You're the manager</h1>
     <!-- Input fields for adding a product -->
-    <input type="text" id="productName" placeholder="Product Name" class="mb-2 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
-    <input type="text" id="productPrice" placeholder="Product Price (e.g., 123,000,000)" class="mb-2 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
-    <input type="text" id="productQuantity" placeholder="Product Quantity (e.g., 123,456,000)" class="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500">
+    <input type="text" id="productName" placeholder="Product Name" class="mb-2 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500 animated slide-in-left">
+    <input type="text" id="productPrice" placeholder="Product Price (e.g., 123,000,000)" class="mb-2 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500 animated slide-in-left">
+    <input type="text" id="productQuantity" placeholder="Product Quantity (e.g., 123,456,000)" class="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500 animated slide-in-left">
 
     <!-- Add Item button -->
-    <button id="addItemBtn" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Item</button>
+    <button id="addItemBtn" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2 save-button">Add Item</button>
 
-    <!-- Logout form -->
-    <form action="/logout" method="post">
-        <button type="submit" id="logoutBtn" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4">Logout</button>
+    <!-- Logout button -->
+    <form action="/logout" method="post" class="logoutBtn mb-2"> <!-- Added custom class -->
+        <button type="submit" id="logoutBtn" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</button>
     </form>
 
     <!-- Popup message -->
-    <div id="popupMessage" class="mt-4"></div>
+    <div id="popupMessage" class="mt-4 animated fade-in"></div>
 </div>
 
 <script>
@@ -50,7 +130,7 @@
 
         // Add input event listener (to handle case where input value is changed without losing focus)
         inputField.addEventListener('input', () => {
-            // Change text color to black when input has value
+    // Change text color to black when input has value
             if (inputField.value.trim()) {
                 inputField.style.color = 'black';
             }
