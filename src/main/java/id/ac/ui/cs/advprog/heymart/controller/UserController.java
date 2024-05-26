@@ -208,8 +208,22 @@ public class UserController {
         User user = userRepository.findByUsername(username);
         model.addAttribute("products", user.getShoppingCart().getProducts()); // Get the list of products from the shopping cart
 
+        // Retrieve message and messageType from the session and add them to the model
+        String message = (String) session.getAttribute("message");
+        String messageType = (String) session.getAttribute("messageType");
+
+        if (message != null) {
+            model.addAttribute("message", message);
+            model.addAttribute("messageType", messageType);
+
+            // Remove the attributes from the session to avoid showing the message on subsequent requests
+            session.removeAttribute("message");
+            session.removeAttribute("messageType");
+        }
+
         return "shoppingCart";
     }
+
 
     @GetMapping("/edit-product/{productId}")
     public String editProductPage(@PathVariable String productId, Model model) {
