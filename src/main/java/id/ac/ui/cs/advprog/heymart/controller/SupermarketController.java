@@ -2,10 +2,13 @@ package id.ac.ui.cs.advprog.heymart.controller;
 
 import id.ac.ui.cs.advprog.heymart.model.Supermarket;
 import id.ac.ui.cs.advprog.heymart.service.SupermarketService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -21,24 +24,36 @@ public class SupermarketController {
     @GetMapping("/supermarkets")
     public String getAllSupermarkets(Model model) {
         model.addAttribute("supermarkets", supermarketService.getAllSupermarkets());
-        return "supermarkets";
+        return "registerSupermarket";
+    }
+
+    @GetMapping("/manage")
+    public String manageSupermarkets(Model model) {
+        List<Supermarket> supermarkets = supermarketService.getAllSupermarkets();
+        model.addAttribute("supermarkets", supermarkets);
+        return "manageSupermarkets";
     }
 
     @PostMapping("/supermarkets")
     public String addSupermarket(@ModelAttribute Supermarket supermarket) {
         supermarketService.addSupermarket(supermarket);
-        return "redirect:/admin/supermarkets";
+        return "redirect:/adminHome";
     }
 
-    @PutMapping("/supermarkets/{id}")
-    public String updateSupermarket(@PathVariable Long id, @ModelAttribute Supermarket updatedSupermarket) {
-        supermarketService.updateSupermarket(id, updatedSupermarket);
-        return "redirect:/admin/supermarkets";
+    @GetMapping("/edit/{id}")
+    public String editSupermarket(@PathVariable Long id, Model model) {
+        Supermarket supermarket = supermarketService.getSupermarketByID(id);
+        if (supermarket != null) {
+            model.addAttribute("supermarket", supermarket);
+            return "editSupermarket";
+        } else {
+            return "redirect:/admin/supermarkets/manage";
+        }
     }
 
-    @DeleteMapping("/supermarkets/{id}")
-    public String deleteSupermarket(@PathVariable Long id) {
+    @PostMapping("/delete")
+    public String deleteSupermarket(@RequestParam Long id) {
         supermarketService.deleteSupermarket(id);
-        return "redirect:/admin/supermarkets";
+        return "redirect:/admin/manage";
     }
 }

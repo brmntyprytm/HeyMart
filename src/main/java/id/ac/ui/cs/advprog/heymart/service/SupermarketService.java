@@ -12,5 +12,7 @@ public interface SupermarketService {
 
     void updateSupermarket(Long id, Supermarket updatedSupermarket);
 
+    Supermarket getSupermarketByID(Long id);
+
     void deleteSupermarket(Long id);
 }
