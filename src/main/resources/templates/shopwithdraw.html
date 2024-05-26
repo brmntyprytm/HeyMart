@@ -67,6 +67,9 @@
 <body>
 <div class="container">
     <h2>Balance Information</h2>
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+    </div>
     <table>
         <tr>
             <td>Shop balance:</td>
