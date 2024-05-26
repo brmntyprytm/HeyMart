@@ -6,12 +6,14 @@ import id.ac.ui.cs.advprog.heymart.repository.ShoppingCartRepository;
 import id.ac.ui.cs.advprog.heymart.model.Product;
 import id.ac.ui.cs.advprog.heymart.model.ShoppingCart;
 import id.ac.ui.cs.advprog.heymart.model.User;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import id.ac.ui.cs.advprog.heymart.service.ShoppingCartService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.ui.Model;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/cart")
@@ -70,12 +72,13 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/checkout")
-    public RedirectView checkout(@RequestParam String username, @RequestParam String productId) {
+    public RedirectView checkout(@RequestParam String username, @RequestParam String productId, HttpServletRequest request) {
+        HttpSession session = request.getSession();
         boolean checkedOut = shoppingCartService.checkout(username, productId);
         if (checkedOut) {
-            return new RedirectView("/shoppingCart");
-        } else {
-            return new RedirectView("/shoppingCart");
+            Double updatedBalance = userRepository.findByUsername(username).getBalance();
+            session.setAttribute("balance", updatedBalance);
         }
+        return new RedirectView("/shoppingCart");
     }
 }

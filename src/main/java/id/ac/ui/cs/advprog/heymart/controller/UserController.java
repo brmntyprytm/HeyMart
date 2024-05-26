@@ -99,14 +99,15 @@ public class UserController {
     @GetMapping("/listProductUser")
     public String greetingPage(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-
         String username = (String) session.getAttribute("username");
-        String role = (String) session.getAttribute("role");
-        Double balance = (Double) session.getAttribute("balance");
+
+        // Fetch the updated balance from the database
+        Double updatedBalance = userRepository.findByUsername(username).getBalance();
+        session.setAttribute("balance", updatedBalance);
 
         model.addAttribute("username", username);
-        model.addAttribute("role", role);
-        model.addAttribute("balance", balance);
+        model.addAttribute("role", (String) session.getAttribute("role"));
+        model.addAttribute("balance", updatedBalance);
 
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
