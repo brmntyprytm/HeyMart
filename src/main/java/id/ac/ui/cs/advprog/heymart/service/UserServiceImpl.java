@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import id.ac.ui.cs.advprog.heymart.model.User;
 import id.ac.ui.cs.advprog.heymart.repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
+import id.ac.ui.cs.advprog.heymart.repository.ShoppingCartRepository;
 import id.ac.ui.cs.advprog.heymart.model.ShoppingCart;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -12,7 +15,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public String hashPassword(String password) {
+        return passwordEncoder.encode(password);
+    }
 
     @Override
     public boolean loginUser(String username, String password) {
@@ -30,34 +40,46 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
+    @Transactional
     public boolean registerUser(User user) {
+        // Check if username already exists
         if (userRepository.existsByUsername(user.getUsername())) {
             return false;
         }
 
-        user.setRole("user");
+        // Validate that password and confirmPassword match
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            return false;
+        }
+
+        // Hash the password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Assign role
+        if ("admin".equals(user.getUsername())) {
+            user.setRole("admin");
+        } else if ("manager".equals(user.getRole())) {
+            user.setRole("manager");
+        } else {
+            user.setRole("user");
+        }
+
+        // Initialize balance
         user.setBalance(0.0);
 
-        boolean isAdmin = user.getUsername().equals("admin");
+        try {
+            // Save user to the database
+            userRepository.save(user);
 
-        if (isAdmin) {
-            user.setRole("admin");
-        }
-
-        if (user.getRole().equals("manager")) {
-            user.setRole("manager");
-        }
-
-        // Lazy initialization of shopping cart
-        if (user.getShoppingCart() == null) {
+            // Initialize and save shopping cart
             ShoppingCart shoppingCart = new ShoppingCart();
             shoppingCart.setUser(user);
-            user.setShoppingCart(shoppingCart);
-        }
+            shoppingCartRepository.save(shoppingCart);
 
-        try {
+            // Associate shopping cart with user
+            user.setShoppingCart(shoppingCart);
             userRepository.save(user);
+
             return true;
         } catch (Exception e) {
             return false;
