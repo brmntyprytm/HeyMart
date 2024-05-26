@@ -5,5 +5,5 @@ public interface ShoppingCartService {
 
     boolean removeFromCart(String username, String productId);
 
-    boolean checkout(String username, String productId);
+    boolean checkout(String username);
 }

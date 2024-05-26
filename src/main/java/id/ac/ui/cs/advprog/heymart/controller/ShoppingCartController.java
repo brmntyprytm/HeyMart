@@ -72,12 +72,13 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/checkout")
-    public RedirectView checkout(@RequestParam String username, @RequestParam String productId, HttpServletRequest request) {
+    public RedirectView checkout(@RequestParam String username, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        boolean checkedOut = shoppingCartService.checkout(username, productId);
+        boolean checkedOut = shoppingCartService.checkout(username);
         if (checkedOut) {
             Double updatedBalance = userRepository.findByUsername(username).getBalance();
             session.setAttribute("balance", updatedBalance);
+            return new RedirectView("/shoppingCart");
         }
         return new RedirectView("/shoppingCart");
     }
