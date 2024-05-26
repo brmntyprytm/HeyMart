@@ -2,14 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Confirm Replacement</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/output.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a202c; /* Setting the background color to a dark shade */
+            padding: 20px; /* Adding padding to the body */
+        }
+    </style>
 </head>
-<body>
-<h2 th:text="${warning}"></h2>
-<form th:action="@{/cart/confirmReplace}" method="post">
-    <input type="hidden" name="username" th:value="${username}">
-    <input type="hidden" name="productId" th:value="${productId}">
-    <button type="submit">Replace Items</button>
-</form>
-<a th:href="@{/listProductUser}">Cancel</a>
+<body class="text-white font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
+<div class="text-center max-w-4xl mx-auto p-8 bg-gray-800 rounded-lg shadow-lg">
+    <h2 class="text-3xl mb-6 font-bold" th:text="${warning}"></h2>
+    <form th:action="@{/cart/confirmReplace}" method="post" class="mb-4">
+        <input type="hidden" name="username" th:value="${username}">
+        <input type="hidden" name="productId" th:value="${productId}">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-200">Replace Items</button>
+    </form>
+    <a th:href="@{/listProductUser}" class="block w-full bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-200">Cancel</a>
+</div>
 </body>
 </html>
