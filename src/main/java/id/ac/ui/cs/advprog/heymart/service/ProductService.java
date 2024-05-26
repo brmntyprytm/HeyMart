@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.heymart.service;
 
 import id.ac.ui.cs.advprog.heymart.model.Product;
+import id.ac.ui.cs.advprog.heymart.model.Supermarket;
 import id.ac.ui.cs.advprog.heymart.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,16 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product createProduct(Product product) {
+    public synchronized Product createProduct(Product product) {
         // Save the product to the database using the repository
+        if (product.getSupermarket() == null) {
+            Supermarket defaultSupermarket = Supermarket.getDefault();
+            product.setSupermarket(defaultSupermarket);
+        }
         return productRepository.save(product);
     }
 
-    public Product updateProduct(String productId, String name, Double price, Integer quantity) {
+    public synchronized Product updateProduct(String productId, String name, Double price, Integer quantity) {
         // Retrieve the product from the database
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
@@ -42,9 +47,15 @@ public class ProductService {
         }
     }
 
+    public Product getProductById(String productId) {
+        // Retrieve the product from the database by its ID
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        return optionalProduct.orElse(null); // Return null if product not found
+    }
 
     public void deleteProduct(String productId) {
         // Delete the product from the database using the repository
         productRepository.deleteById(productId);
     }
+
 }

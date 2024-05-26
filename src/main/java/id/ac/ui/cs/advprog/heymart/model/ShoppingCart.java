@@ -33,4 +33,15 @@ public class ShoppingCart {
         products.add(product);
     }
 
+    public void removeProduct(Product product) {
+        products.remove(product);
+    }
+
+    public boolean isFromSameSupermarket(Product newProduct) {
+        if (products.isEmpty()) {
+            return true;
+        }
+        Supermarket supermarket = products.get(0).getSupermarket();
+        return supermarket.equals(newProduct.getSupermarket());
+    }
 }

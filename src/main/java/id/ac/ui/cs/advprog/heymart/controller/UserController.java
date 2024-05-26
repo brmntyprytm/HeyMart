@@ -79,6 +79,7 @@ public class UserController {
             HttpSession session = request.getSession();
             session.setAttribute("username", loggedInUser.getUsername());
             session.setAttribute("role", loggedInUser.getRole());
+            session.setAttribute("balance", loggedInUser.getBalance());
             // Redirect based on user role
             if ("manager".equalsIgnoreCase(loggedInUser.getRole())) {
                 return "redirect:/listProductManager"; // Redirect manager to manager's home page
@@ -96,19 +97,23 @@ public class UserController {
 
 
     @GetMapping("/listProductUser")
-    public String greetingPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model, HttpServletRequest request) {
+    public String greetingPage(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        username = (String) session.getAttribute("username");
-        role = (String) session.getAttribute("role");
+
+        String username = (String) session.getAttribute("username");
+        String role = (String) session.getAttribute("role");
+        Double balance = (Double) session.getAttribute("balance");
 
         model.addAttribute("username", username);
         model.addAttribute("role", role);
+        model.addAttribute("balance", balance);
 
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
 
         return "listProductUser";
     }
+
 
     @GetMapping("/managerHome")
     public String managerPage(@ModelAttribute("username") String username, @ModelAttribute("role") String role, Model model, HttpServletRequest request) {
@@ -185,7 +190,17 @@ public class UserController {
         return "shoppingCart";
     }
 
-
+    @GetMapping("/edit-product/{productId}")
+    public String editProductPage(@PathVariable String productId, Model model) {
+        Product product = productService.getProductById(productId);
+        if (product != null) {
+            model.addAttribute("product", product);
+            return "editProduct";
+        } else {
+            // If product not found, redirect to error page or handle appropriately
+            return "listProductManager"; // Assuming you have an error.html template
+        }
+    }
 }
 
 
