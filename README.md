@@ -10,9 +10,9 @@ HeyMart has been successfully deployed using Koyeb. You can access the website [
 1. `andikaprmdyaa` - Andika Pramudya Wardana / 2206046645
 
    Responsible for: Manage products (🍎)
-   - [ ] Supermarket Managers can add products
-   - [ ] Supermarket Managers can change and delete products
-   - [ ] Users can view products in a supermarket
+   - [x] Supermarket Managers can add products
+   - [x] Supermarket Managers can change and delete products
+   - [x] Users can view products in a supermarket
 
 2. `brmntyprytm` - Bramantyo Priyo Utomo / 2206821563
 
@@ -21,8 +21,9 @@ HeyMart has been successfully deployed using Koyeb. You can access the website [
       - [x] Established connection to Railway PostgreSQL
    - Continuous Integration 
       - [x] Set Up CI with SonarCloud
+      - [x] Set Up CI with GitHub Actions
    - Continuous Deployment
-      - [x] Set Up CD with Koyeb (this took an embarrassingly long time to figure out)
+      - [x] Set Up CD with Railway 
    - Styling
      -  [x] Set Up Tailwind CSS
      -  [x] Styled Landing, Login and Register Page
@@ -47,8 +48,8 @@ HeyMart has been successfully deployed using Koyeb. You can access the website [
 
    Responsible for: Manage Balances (🍎/🧑‍)
    - [ ] Update Buyer and Supermarket balances when checking out. The Buyer's balance will decrease and the Supermarket's balance will increase
-   - [ ] Buyers can top-up balance
-   - [ ] Supermarket managers can withdraw balances
+   - [x] Buyers can top-up balance
+   - [x] Supermarket managers can withdraw balances
 
 **Branching Strategy**:
 * `feature` branches: All new features or changes should be developed on separate feature branches branched off from the develop branch.

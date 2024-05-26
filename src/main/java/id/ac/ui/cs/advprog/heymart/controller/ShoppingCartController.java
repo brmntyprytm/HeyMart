@@ -75,11 +75,18 @@ public class ShoppingCartController {
     public RedirectView checkout(@RequestParam String username, HttpServletRequest request) {
         HttpSession session = request.getSession();
         boolean checkedOut = shoppingCartService.checkout(username);
+
         if (checkedOut) {
             Double updatedBalance = userRepository.findByUsername(username).getBalance();
             session.setAttribute("balance", updatedBalance);
-            return new RedirectView("/shoppingCart");
+            session.setAttribute("message", "Checkout successful");
+            session.setAttribute("messageType", "success"); // Add message type for styling
+        } else {
+            session.setAttribute("message", "Checkout unsuccessful");
+            session.setAttribute("messageType", "error"); // Add message type for styling
         }
+
         return new RedirectView("/shoppingCart");
     }
+
 }
