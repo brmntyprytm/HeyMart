@@ -3,7 +3,7 @@ FROM eclipse-temurin:21-jdk-alpine AS builder
 
 WORKDIR /app
 COPY . .
-RUN ./gradlew build
+RUN ./gradlew clean bootJar
 
 # Run stage
 FROM eclipse-temurin:21-jdk-alpine AS runner
