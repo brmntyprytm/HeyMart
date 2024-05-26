@@ -44,13 +44,26 @@ public class SupermarketController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editSupermarket(@PathVariable Long id, Model model) {
+    public String editSupermarketForm(@PathVariable Long id, Model model) {
         Supermarket supermarket = supermarketService.getSupermarketByID(id);
         if (supermarket != null) {
             model.addAttribute("supermarket", supermarket);
             return "editSupermarket";
         } else {
-            return "redirect:/admin/supermarkets/manage";
+            return "redirect:/admin/manage";
+        }
+    }
+
+    @PostMapping("/edit")
+    public String editSupermarket(@ModelAttribute Supermarket updatedSupermarket) {
+        Supermarket existingSupermarket = supermarketService.getSupermarketByID(updatedSupermarket.getId());
+        if (existingSupermarket != null) {
+            existingSupermarket.setName(updatedSupermarket.getName());
+            existingSupermarket.setLocation(updatedSupermarket.getLocation());
+            supermarketService.updateSupermarket(existingSupermarket.getId(), existingSupermarket);
+            return "redirect:/admin/manage";
+        } else {
+            return "redirect:/admin/manage";
         }
     }
 
