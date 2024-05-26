@@ -20,6 +20,10 @@
                 <input type="password" id="password" name="password" class="block w-full bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:bg-gray-600">
             </div>
             <div class="mb-4">
+                <label for="confirmPassword" class="block text-white">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="block w-full bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:bg-gray-600">
+                <span id="message" class="text-red-500"></span>
+            <div class="mb-4">
                 <label for="email" class="block text-white">Email:</label>
                 <input type="text" id="email" name="email" class="block w-full bg-gray-700 text-white rounded px-3 py-2 focus:outline-none focus:bg-gray-600">
             </div>
@@ -34,4 +38,18 @@
     <p>Authentication feature is still in its early stages of development, please do not enter any sensitive information. Thank you for your understanding!</p>
 </div>
 </body>
+<script>
+    function validateForm() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        var message = document.getElementById("message");
+
+        if (password !== confirmPassword) {
+            message.textContent = "Passwords do not match.";
+            return false;
+        }
+
+        return true;
+    }
+</script>
 </html>
