@@ -24,17 +24,32 @@ repositories {
 }
 
 dependencies {
+    // Spring Boot Starters
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.security:spring-security-core")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
+    // Lombok
     compileOnly("org.projectlombok:lombok")
-    runtimeOnly("org.postgresql:postgresql")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
+
+    // PostgreSQL Driver
+    runtimeOnly("org.postgresql:postgresql")
+
+    // Development Tools
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // Configuration Processor
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+    // Spring Boot Test Starter
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // Spring Security Test
+    testImplementation("org.springframework.security:spring-security-test")
 }
+
 
 tasks.withType<Test> {
     useJUnitPlatform()

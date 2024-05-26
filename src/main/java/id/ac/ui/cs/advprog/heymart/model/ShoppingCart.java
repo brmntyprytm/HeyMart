@@ -44,4 +44,5 @@ public class ShoppingCart {
         Supermarket supermarket = products.get(0).getSupermarket();
         return supermarket.equals(newProduct.getSupermarket());
     }
+
 }

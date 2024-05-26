@@ -1,122 +1,169 @@
 package id.ac.ui.cs.advprog.heymart.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import id.ac.ui.cs.advprog.heymart.controller.UserController;
+import id.ac.ui.cs.advprog.heymart.model.Product;
 import id.ac.ui.cs.advprog.heymart.model.User;
 import id.ac.ui.cs.advprog.heymart.repository.UserRepository;
-import id.ac.ui.cs.advprog.heymart.service.UserService;
+import id.ac.ui.cs.advprog.heymart.service.*;
 import id.ac.ui.cs.advprog.heymart.validator.UserValidator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@ExtendWith(MockitoExtension.class)
-class UserControllerTest {
+import java.util.Collections;
+import java.util.List;
 
-    @Mock
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@WebMvcTest(UserController.class)
+public class UserControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private UserService userService;
 
-    @Mock
+    @MockBean
     private UserValidator userValidator;
 
-    @Mock
+    @MockBean
     private UserRepository userRepository;
 
-    @Mock
-    private Model model;
+    @MockBean
+    private ProductService productService;
 
-    @Mock
-    private BindingResult bindingResult;
+    @MockBean
+    private ShoppingCartService shoppingCartService;
 
-    @Mock
-    private RedirectAttributes redirectAttributes;
+    @MockBean
+    private SupermarketService supermarketService;
 
-    @InjectMocks
-    private UserController userController;
-
-    @Test
-    void landingPage_ReturnsCorrectViewName() {
-        String viewName = userController.landingPage();
-        assertThat(viewName).isEqualTo("landing");
-    }
-
-
-    @Test
-    void loginPage_ReturnsCorrectViewName() {
-        String viewName = userController.loginPage(model);
-        assertThat(viewName).isEqualTo("login");
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void registerUser_WithValidUser_RedirectsToLoginPage() {
-        User user = new User();
+    public void testLandingPage() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("landing"));
+    }
+
+    @Test
+    public void testRegisterPage() throws Exception {
+        mockMvc.perform(get("/register"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register"))
+                .andExpect(model().attributeExists("user"));
+    }
+
+    @Test
+    public void testLoginPage() throws Exception {
+        mockMvc.perform(get("/login"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"));
+    }
+
+    @Test
+    public void testRegisterUserSuccess() throws Exception {
         when(userService.registerUser(any(User.class))).thenReturn(true);
 
-        String viewName = userController.registerUser(user, bindingResult, model);
+        mockMvc.perform(post("/register")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("username", "testuser")
+                        .param("password", "password")
+                        .param("email", "testuser@example.com"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/login"))
+                .andExpect(model().attributeExists("success"));
 
-        assertThat(viewName).isEqualTo("redirect:/login");
-        verify(userService).registerUser(user);
+        verify(userService, times(1)).registerUser(any(User.class));
     }
 
     @Test
-    void registerUser_WithInvalidUser_ReturnsRegisterPage() {
-        User user = new User();
-        when(bindingResult.hasErrors()).thenReturn(true);
+    public void testRegisterUserFailure() throws Exception {
+        when(userService.registerUser(any(User.class))).thenReturn(false);
 
-        String viewName = userController.registerUser(user, bindingResult, model);
+        mockMvc.perform(post("/register")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("username", "testuser")
+                        .param("password", "password")
+                        .param("email", "testuser@example.com"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register"))
+                .andExpect(model().attributeExists("error"))
+                .andExpect(model().attributeExists("message"));
 
-        assertThat(viewName).isEqualTo("register");
-        verify(userValidator).validate(user, bindingResult);
+        verify(userService, times(1)).registerUser(any(User.class));
     }
 
     @Test
-    void loginUser_WithValidCredentials_RedirectsToHomePage() {
+    public void testLoginUserSuccess() throws Exception {
         User user = new User();
-        user.setUsername("test");
+        user.setUsername("testuser");
         user.setPassword("password");
-        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
-        when(userService.loginUser(user.getUsername(), user.getPassword())).thenReturn(true);
+        user.setRole("user");
+        when(userService.authenticate(anyString(), anyString())).thenReturn(user);
 
-        String viewName = userController.loginUser(user, model, redirectAttributes);
+        mockMvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("username", "testuser")
+                        .param("password", "password"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/listProductUser"));
 
-        assertThat(viewName).isEqualTo("redirect:/home");
-        verify(redirectAttributes).addFlashAttribute("username", user.getUsername());
-        verify(redirectAttributes).addFlashAttribute("role", user.getRole());
+        verify(userService, times(1)).authenticate(anyString(), anyString());
     }
 
     @Test
-    void loginUser_WithInvalidCredentials_ReturnsLoginPage() {
+    public void testLoginUserFailure() throws Exception {
+        when(userService.authenticate(anyString(), anyString())).thenReturn(null);
+
+        mockMvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("username", "testuser")
+                        .param("password", "wrongpassword"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/login"))
+                .andExpect(flash().attributeExists("error"));
+
+        verify(userService, times(1)).authenticate(anyString(), anyString());
+    }
+
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void testGreetingPage() throws Exception {
         User user = new User();
-        when(userService.loginUser(user.getUsername(), user.getPassword())).thenReturn(false);
+        user.setUsername("testuser");
+        user.setBalance(100.0);
 
-        String viewName = userController.loginUser(user, model, redirectAttributes);
+        when(userRepository.findByUsername(anyString())).thenReturn(user);
+        when(productService.getAllProducts()).thenReturn(Collections.emptyList());
 
-        assertThat(viewName).isEqualTo("login");
-        verify(model).addAttribute("message", "Login failed. Please try again.");
-    }
+        mockMvc.perform(get("/listProductUser"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("listProductUser"))
+                .andExpect(model().attributeExists("username"))
+                .andExpect(model().attributeExists("role"))
+                .andExpect(model().attributeExists("balance"))
+                .andExpect(model().attributeExists("products"));
 
-    @Test
-    void greetingPage_ReturnsCorrectViewName() {
-        String viewName = userController.greetingPage("test", "user", model);
-        assertThat(viewName).isEqualTo("home");
-        verify(model).addAttribute("username", "test");
-        verify(model).addAttribute("role", "user");
-    }
-
-    @Test
-    void managerPage_ReturnsCorrectViewName() {
-        String viewName = userController.managerPage("test", "manager", model);
-        assertThat(viewName).isEqualTo("managerHome");
-        verify(model).addAttribute("username", "test");
-        verify(model).addAttribute("role", "manager");
+        verify(userRepository, times(1)).findByUsername(anyString());
+        verify(productService, times(1)).getAllProducts();
     }
 }
