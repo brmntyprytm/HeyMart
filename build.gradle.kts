@@ -24,30 +24,16 @@ repositories {
 }
 
 dependencies {
-    // Spring Boot Starters
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-
-    // Lombok
+    implementation("org.springframework.security:spring-security-core")
     compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-
-    // PostgreSQL Driver
     runtimeOnly("org.postgresql:postgresql")
-
-    // Development Tools
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-
-    // Configuration Processor
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-
-    // Spring Boot Test Starter
+    annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-    // Spring Security Test
-    testImplementation("org.springframework.security:spring-security-test")
 }
 
 
