@@ -6,16 +6,24 @@
     <link href="./output.css" rel="stylesheet">
     <title>List Products</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Add your CSS styles here */
+        .logoutBtn {
+            margin-top: 10px;
+        }
+    </style>
+
 </head>
 <body class="bg-gray-900 text-white font-sans leading-normal tracking-normal flex justify-center items-center h-screen">
 <div class="text-center">
     <h1 class="text-6xl mb-6 font-extrabold">Welcome to HeyMart 👋</h1>
     <h2 class="text-3xl" th:text="'Hello, ' + ${username} + '! Your role is: ' + ${role}">Hello, username! role</h2>
     <h1 class="text-3xl mb-6 font-extrabold">You're the manager</h1>
-    <a href="/managerHome" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4">Add New Item</a>
+
+    <a href="/managerHome" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2">Add New Item</a>
 
     <form action="/logout" method="post">
-        <button type="submit" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</button>
+        <button type="submit" class="logoutBtn w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</button>
     </form>
 
     <!-- Table to display products -->
@@ -31,16 +39,20 @@
         <tbody>
         <!-- Iterate over the products list and display each product -->
         <tr th:each="product : ${products}">
-            <td class="border border-gray-600 px-4 py-2" th:text="${product.name}"></td>
-            <td class="border border-gray-600 px-4 py-2" th:text="${product.price}"></td>
-            <td class="border border-gray-600 px-4 py-2" th:text="${product.quantity}"></td>
+            <td class="border border-gray-600 px-4 py-2 rounded" th:text="${product.name}"></td>
+            <td class="border border-gray-600 px-4 py-2 rounded" th:text="${product.price}"></td>
+            <td class="border border-gray-600 px-4 py-2 rounded" th:text="${product.quantity}"></td>
+            <!-- Buttons for delete and edit actions -->
             <!-- Buttons for delete and edit actions -->
             <td class="border border-gray-600 px-4 py-2">
                 <button class="delete-product bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-15 focus:outline-none focus:shadow-outline" th:data-product-id="${product.id}" onclick="handleDelete(this.getAttribute('data-product-id'))">Delete</button>
                 <a th:href="@{/edit-product/{productId}(productId=${product.id})}" class="btn btn-primary bg-orange-500 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-15 focus:outline-none focus:shadow-outline" data-toggle="modal" data-target="#editProductModal${product.id}">
                     Edit Product
                 </a>
+
+
             </td>
+
         </tr>
         </tbody>
     </table>
@@ -64,11 +76,6 @@
             }
         });
     }
-    // Function to handle delete product action
-
-    // Function to handle edit product action (placeholder)
-    // Function to handle edit product action
-
 </script>
 
 </body>
